@@ -82,7 +82,7 @@ const Login = () => {
             ) : (
                 <section>
                     <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-                    <a style={{textAlign:"center"}}><img src={require('./images/Mearie_Logo_nw.png')} className='logo' alt='Mearie'/></a>
+                    <a style={{textAlign:"center"}}><img src={require('../images/Mearie_Logo_nw.png')} className='logo' alt='Mearie'/></a>
                     <h1 style={{textAlign:"center",color:"rgb(106, 110, 136)"}}>Log in</h1>
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="username">Username:</label>
