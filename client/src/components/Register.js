@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 /* axios 가 로그인 레지스터 어텐티케이션 다 제공해주는게 굉장히 많아서 깔았어욥. 
 데이터 저장이 굉장히 쉬워욥! 이 파일에서는 엑시오스에서 다이렉트하게 말고 우리가 만들어준 axios.js 파일에서 가져올거에용.
 (npm i axios) */
-import axios from "./api/axios";
+import axios from "../api/axios";
 
 /*아이디, 비번 형식 지정*/
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
