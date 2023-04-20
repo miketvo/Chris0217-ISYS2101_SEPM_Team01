@@ -3,7 +3,6 @@ import "./index.css";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
-//페이지들 펑션들 다 각 파일들 안에서 서로 링크 걸어줄수 있게 필요한거 다 임포트 하고 밑에 라우트 달아준겁니당~~~~
 
 function App() {
     return (
