@@ -48,21 +48,8 @@ function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        const users = {
-            user: user, 
-            pwd: pwd
-        };
 
         try {
-            
-            // axios.post(REGISTER_URL, users)
-            //     .then((res) => {
-            //         console.log(res.users)
-            //     }).catch((error) => {
-            //         console.log(error)
-            //     }); 
-            
             const response = await axios.post(
                 REGISTER_URL,
                 JSON.stringify({ user, pwd }),

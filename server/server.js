@@ -35,8 +35,11 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 // routes
 app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
+// app.use('/auth', require('./routes/auth'));
+// app.use('/refresh', require('./routes/refresh'));
+// app.use('/logout', require('./routes/logout'));
 /*
-아래의 코드 세 줄은 '/server/controllers'에서 'register.js'를 제외한 모든 코드의 소스를 수정해야만 사용 가능하니 주석 해제하지 말아 주세요!
+아래의 코드 세 줄은 '/server/controllers'에서 'register.js'를 제외한 모든 코드의 소스를 수정해야만 사용 가능해서 일단 주석으로 처리하고 서버 돌렸습니당 (이쪽은 다 login 기능입니다~~)
 
 app.use('/auth', require('./routes/auth'));
 app.use('/refresh', require('./routes/refresh'));
