@@ -1,49 +1,26 @@
-import "./App.css";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Recipe from "./Recipe";
-function FetchApi() {
-  const APP_ID = "25d1f83f";
-  const APP_KEY = "73d5699d0f6499668c30c852dcb1d442";
-  const [recipe, setRecipe] = useState([]);
-  const [search, setSearch] = useState('');
-  const [query, setQuery] = useState('');
-  useEffect(() => {
-    getRecipe();
-  }, [query]);
-  const getRecipe = async () => {
-    const response = await axios.get(
-      `https://api.edamam.com/api/recipes/v2?type=public&q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`
-    );
-    setRecipe(response.data.hits);
-    console.log(response.data.hits);
-  };
-  const updateSearch = (e) => {
-    setSearch(e.target.value);
-    console.log(e.target.value);
-  };
-  const uppdateQuery = (e) => {
-    e.preventDefault();
-    setQuery(search);
-  }
-  return (
-    <div className="App">
-      <form onSubmit={uppdateQuery}>
-        <input type='text' value={search} onChange={updateSearch}/>
-        <button type="button">Search</button>
-      </form>
+import React from "react";
 
-      {recipe.map((recipe) => (
-        <Recipe
-        label={recipe.recipe.label}
-        calories={recipe.recipe.calories}
-        image={recipe.recipe.image}
-        ingredients={recipe.recipe.ingredients}
-        // dietLabels={recipe.recipe.dietLabels.index}
-        />
-      ))}
+const Recipe = ({ label, calories, image, ingredients }) => {
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>Meal: {label}</th>
+            <th>calories: {calories}</th>
+            <th>
+              <img src={image} alt="" />
+            </th>
+            <th>
+              ingredients:{" "}
+              {ingredients &&
+                ingredients.map((ingredient) => <li>{ingredient.text}</li>)}
+            </th>
+          </tr>
+        </thead>
+      </table>
     </div>
   );
-}
+};
 
-export default FetchApi;
+export default Recipe;
