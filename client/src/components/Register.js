@@ -1,32 +1,18 @@
-import { useRef, useState, useEffect } from "react"; //user state랑 validation 설정 해주려구~~~
-import { Link } from "react-router-dom"; // 링크 이어주려구~~
-
-/* 밑에 두개는 아이콘들 불러오려구 깔았습니답. 
-(npm i --save @fortawesome/fontawesome-svg-core) */
-import {
-    faCheck,
-    faTimes,
-    faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { useRef, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-/* axios 가 로그인 레지스터 어텐티케이션 다 제공해주는게 굉장히 많아서 깔았어욥. 
-데이터 저장이 굉장히 쉬워욥! 이 파일에서는 엑시오스에서 다이렉트하게 말고 우리가 만들어준 axios.js 파일에서 가져올거에용.
-(npm i axios) */
 import axios from "../api/axios";
 
-/*아이디, 비번 형식 지정*/
+
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = "/register";
 
-const Register = () => {
-    /*set the focus on the user input when the component loads*/
+function Register() {
     const userRef = useRef();
-    /*set the focus on the error so it can be announced by a screen reader for accessibility*/
     const errRef = useRef();
 
-    /*tied to user input*/
     const [user, setUser] = useState("");
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
@@ -44,9 +30,8 @@ const Register = () => {
 
     useEffect(() => {
         userRef.current.focus();
-    }, []); /*dependency array => 바뀌는 컨디션 */
+    }, []);
 
-    /* validate the user name */
     useEffect(() => {
         setValidName(USER_REGEX.test(user));
     }, [user]);
@@ -56,19 +41,28 @@ const Register = () => {
         setValidMatch(pwd === matchPwd);
     }, [pwd, matchPwd]);
 
-    /*요건 에러 메세지 리셋 시키깅*/
     useEffect(() => {
         setErrMsg("");
     }, [user, pwd, matchPwd]);
 
-    // handleSubmit은 바로바로 우리가 미리 지정해준 axio를 사용하는 백엔드 부분입니당. 이제 여기서 사용자가 입력한 정보들을 json 으로 바로 올려줄거에용.
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        const users = {
+            user: user, 
+            pwd: pwd
+        };
 
         try {
-            /* 백엔드에 데이터 보내는 코드! axios.post 를 통해 베이스 url 지정, 
-            데이터 보낼 형식 지정 (오브젝트 두개: 아이디, 비번), 
-            그리구 마지막 configuration */
+            
+            // axios.post(REGISTER_URL, users)
+            //     .then((res) => {
+            //         console.log(res.users)
+            //     }).catch((error) => {
+            //         console.log(error)
+            //     }); 
+            
             const response = await axios.post(
                 REGISTER_URL,
                 JSON.stringify({ user, pwd }),
@@ -77,13 +71,7 @@ const Register = () => {
                     withCredentials: true,
                 }
             );
-            /*Fetch 보다 axios 가 더 좋은게, 위에 response가 자동으로 json 으로 올라가기 때문입니당*/
-            // can look for the data back from axios. response?.data
-            // ******* Remove console.logs before deployment *******
-            //console.log(JSON.stringify(response?.data));
-            //console.log(JSON.stringify(response))
             setSuccess(true);
-            //clear state and controlled inputs
             setUser("");
             setPwd("");
             setMatchPwd("");
