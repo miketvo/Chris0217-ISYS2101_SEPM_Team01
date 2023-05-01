@@ -1,0 +1,36 @@
+.grid{
+  display: grid;
+}
+.container_grid {
+    background-color: white;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 30px auto;
+    grid-gap: 10px;
+    column-gap: 5px;
+    grid-template-areas:
+    "header header header"
+    "item item item";
+    width: 100%;
+    height: 30vh;
+    justify-content: space-between;
+  }
+
+  .header{
+    height: fit-content;
+    color: black;
+  }
+
+  .item {
+    display: flex;
+    flex-direction:column;
+    background-color: #ddd;
+    color: black;
+    border-radius: 10px;
+    width: 90%;
+    justify-content: center;
+    font-size: 0.8rem;
+  }
+
+  .item p{
+    margin: 0.3rem 1rem;
+  }
