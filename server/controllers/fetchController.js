@@ -59,7 +59,7 @@ const getCaloriesController = async (req, res) => {
         }
       });
     },
-    // send: () => {},
+    send: () => {},
   });
 };
 
@@ -102,3 +102,4 @@ module.exports = {
   getCaloriesController,
   getDietabelsController,
 };
+

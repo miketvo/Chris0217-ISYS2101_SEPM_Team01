@@ -36,6 +36,7 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
 app.use('/api', require('./routes/Api'));
+
 /*
 아래의 코드 세 줄은 '/server/controllers'에서 'register.js'를 제외한 모든 코드의 소스를 수정해야만 사용 가능하니 주석 해제하지 말아 주세요!
 
