@@ -2,6 +2,7 @@ import ReactDOM from "react-dom";
 import "./Dashboard.css";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import Selection from "./Selection";
 
 const Dashboard = () => {
   return (

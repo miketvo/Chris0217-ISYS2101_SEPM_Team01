@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
+import FetchApi from "./fetchAPI/FetchApi";
+import Selection from "./components/Selection";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/home" element={<Home />} />
+            <Route exact path="/api" element={<FetchApi />} />
+            <Route exact path="/selection" element={<Selection />} />
           </Routes>
         </div>
       </div>
