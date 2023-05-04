@@ -41,7 +41,6 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 // routes
 app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
-// app.use('/authcheck', require('./routes/authcheck'));
 app.use('/login', require('./routes/login'));
 // app.use('/logout', require('./routes/logout'));
 

@@ -8,7 +8,7 @@ const handleLogin = async (req, res) => {
     // 아래 코드는 백엔드로 input 데이터가 잘 전달되었는지 확인하기 위한 코드입니다~ 테스트해 보고 싶으시면 해제해서 사용해 보셔도 돼요 (세션 같은 건 비포 애프터가 잘 보입니다)
     console.log("input name: [", input_name, "]");
     console.log("input pw: [", input_pw, "]");
-    console.log("세션:", req.session);  // 라인 26이랑 비포 애프터 확인 용도
+    // console.log("세션:", req.session);  // 라인 26이랑 비포 애프터 확인 용도
 
     // 대부분의 콘솔 로그는 제가 테스트해 보며 확인한 용도라서 주석으로 처리하고 진행하셔도 무방합니다
     const sql1 = "SELECT COUNT(*) AS result FROM users WHERE name = '" + input_name + "';";  // 데이터베이스 내에서 유저가 입력한 username이 존재하는지 확인

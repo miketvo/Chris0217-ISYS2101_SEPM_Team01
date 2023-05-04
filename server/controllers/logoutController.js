@@ -1,6 +1,6 @@
 const handleLogout = (req, res) => {
-	delete req.session.username;
 	req.session.is_logined = false;
+	delete req.session.username;
 	req.session.save(()=> {
 		res.redirect('/');
 	})
