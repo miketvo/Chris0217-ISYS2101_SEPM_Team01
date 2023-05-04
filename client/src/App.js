@@ -3,7 +3,7 @@ import "./index.css";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
-
+//import MyPage from "./components/MyPage"; +<Route exact path="/mypage" element={<MyPage />} />
 import Home from "./components/Home";
 
 function App() {
