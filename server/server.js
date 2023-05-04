@@ -44,6 +44,7 @@ app.use('/register', require('./routes/register'));
 // app.use('/authcheck', require('./routes/authcheck'));
 app.use('/login', require('./routes/login'));
 // app.use('/logout', require('./routes/logout'));
+app.use("/home".require(".routes/popup"));
 
 app.all("*", (req, res) => {
   res.status(404);
