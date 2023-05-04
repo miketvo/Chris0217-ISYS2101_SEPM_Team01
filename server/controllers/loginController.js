@@ -29,11 +29,13 @@ const handleLogin = async (req, res) => {
                     });
                 } else {  // 비밀번호가 일치하지 않는 경우
                     console.log("비밀번호 일치:", validPassword);  // (= false)
+                    return res.sendStatus(401);
                 }
             })
         } else if(data[0].result == 0) {  // 유저가 입력한 username이 존재하지 않는 경우
             console.log("결과:", data[0].result);  // 0 (= 데이터베이스 내 COUNT 결과 값이 0)
             console.log("입력하신 id가 일치하지 않습니다.");
+            return res.sendStatus(400);
         } else {
             console.log("errorcode:", err);
         }
