@@ -1,18 +1,19 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-import AuthContext from "../context/AuthProvider"; 
 import axios from "../api/axios";
-const LOGIN_URL = "/auth";
 
-const Login = () => {
-    const { setAuth } = useContext(AuthContext); 
+const LOGIN_URL = "/login";
+
+
+function Login() {
     const userRef = useRef();
     const errRef = useRef();
 
     const [user, setUser] = useState("");
     const [pwd, setPwd] = useState("");
+
     const [errMsg, setErrMsg] = useState("");
+
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
@@ -26,24 +27,18 @@ const Login = () => {
         e.preventDefault();
 
         try {
-            //send info to backend
-            const response = await axios.post(
+            await axios.post(
                 LOGIN_URL,
                 JSON.stringify({ user, pwd }),
                 {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true,
+                    headers: { "Content-Type": "application/json" }
                 }
-            );
+            ); 
 
-            //@@@@@@@@@@@@@@@@@@@
-            console.log(JSON.stringify(response?.data));
-
-            const accessToken = response?.data?.accessToken;
-            setAuth({ user, pwd, accessToken });
+            setSuccess(true);
             setUser("");
             setPwd("");
-            setSuccess(true);
+            sessionStorage.setItem('name', user);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg("No Server Response");
