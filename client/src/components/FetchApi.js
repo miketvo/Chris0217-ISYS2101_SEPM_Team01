@@ -57,14 +57,6 @@ const FetchApi = () => {
 };
 export default FetchApi; */
 
-
-
-
-
-
-
-
-
 // 돌 아 가 는 코 드
 /* import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -135,9 +127,6 @@ const FetchApi = () => {
 
 export default FetchApi; */
 
-
-
-
 //------------------------------------------------------------------경계
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -146,11 +135,11 @@ import Recipe from "./Recipe.js";
 const APP_ID = "25d1f83f";
 const APP_KEY = "73d5699d0f6499668c30c852dcb1d442";
 
+
 const FetchApi = () => {
   const [recipe, setRecipe] = useState([]);
   const [query, setQuery] = useState("");
   const [calories, setCalories] = useState(0);
-
   const updateQuery = async (e) => {
     e.preventDefault();
     try {
@@ -165,8 +154,12 @@ const FetchApi = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response1 = await axios.get(`http://localhost:3500/api/calories?label=${query}`);
-        const response2 = await axios.get(`https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`);
+        const response1 = await axios.get(
+          `http://localhost:3500/api/calories?label=${query}`
+        );
+        const response2 = await axios.get(
+          `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`
+        );
         setRecipe(response2.data.hits);
         setCalories(response1.data[0].calories);
       } catch (error) {
@@ -183,7 +176,11 @@ const FetchApi = () => {
       <form onSubmit={updateQuery}>
         <button type="submit">Get a random food item</button>
       </form>
-      {query && <p>Showing results for {query} ({calories} calories)</p>}
+      {query && (
+        <p>
+          Showing results for {query} ({calories} calories)
+        </p>
+      )}
       <div className="recipes">
         {recipe.map((recipe) => (
           <Recipe
@@ -200,11 +197,6 @@ const FetchApi = () => {
 };
 
 export default FetchApi;
-
-
-
-
-
 
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
@@ -230,7 +222,6 @@ export default FetchApi;
 //       console.log(error);
 //     }
 //   };
-
 
 //   // useEffect hook to fetch the recipes from the Edamam API and calories from the database
 //   useEffect(() => {
@@ -274,10 +265,6 @@ export default FetchApi;
 // };
 
 // export default FetchApi;
-
-
-
-
 
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
