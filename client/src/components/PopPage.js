@@ -4,6 +4,7 @@ import "./PopPage.css";
 import "./Dashboard.css";
 import axios from "../api/axios";
 import PopResult from "./PopResult";
+import Selection from "./Selection";
 function PopPage() {
   //우선 마지막 3-4개가 Meal Type, 나머지는 Meal Style
   const [checkedState, setCheckedState] = useState([
@@ -170,7 +171,7 @@ function PopPage() {
                 <div className="popup-result-title">
                   <h2>Today's Recommendation</h2>
                 </div>
-                <PopResult></PopResult>
+                <Selection></Selection>
                 <div className="popup-buttons">
                   <button onClick={handleReRecommend}>Re-recommend</button>
                   <button onClick={handleConfirmClick}>Confirm</button>
