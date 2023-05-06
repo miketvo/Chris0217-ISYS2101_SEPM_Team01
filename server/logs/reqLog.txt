@@ -1762,3 +1762,13 @@
 20230504	21:45:19	ee6bfaf1-aa4d-451d-b3e3-3f2ab0dd3090	GET	undefined	/favicon.ico
 20230504	21:48:39	18820edf-3257-4b79-a9f4-4969e845bbd1	GET	undefined	/api/allIngredients
 20230504	21:48:39	37a68a23-1b73-4ff9-b310-0e2b021da758	GET	undefined	/favicon.ico
+20230504	22:12:15	b1dad7f7-4686-4e79-a5bc-5ad35a1687b7	GET	undefined	/api/allIngredients
+20230504	22:12:15	a7abb6a7-133d-4995-9a2d-be785b2b37b5	GET	undefined	/favicon.ico
+20230506	18:28:06	b5277e02-833c-4688-b9f2-6647217908fc	GET	undefined	/api/
+20230506	18:28:07	a41cebd8-240e-4e02-a2ae-38bfac3e0747	GET	undefined	/favicon.ico
+20230506	18:28:09	8205c926-ef85-4fb1-9275-2ae845961e2f	GET	undefined	/api/allIngredients
+20230506	18:28:09	654ac715-7406-4095-9fef-d6b62a91b19f	GET	undefined	/favicon.ico
+20230506	18:40:56	a9ee18f4-138c-4b56-ba42-6305990ed887	GET	http://localhost:3000	/api/label
+20230506	18:40:56	f81e6d32-9349-4eff-8d64-5387e5fdcc9a	GET	http://localhost:3000	/api/calories?label=Asian%20Quinoa%20Snack%20Bowls
+20230506	18:40:57	e122e4c1-7751-4d74-b45f-e988edba03e5	GET	http://localhost:3000	/api/label
+20230506	18:40:57	f9c2e084-0ee3-4f97-ba42-4e4e7dfacd8d	GET	http://localhost:3000	/api/calories?label=Marlene%E2%80%99s%20Yorkshire%20Pudding
