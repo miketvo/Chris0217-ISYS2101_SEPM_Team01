@@ -3,7 +3,6 @@ import axios from "axios";
 import "./Selection.css";
 import Progress from "./Progress";
 import Menu from "./Menu";
-import { fetchData } from "./Api";
 
 function Selection() {
   const [products, setProducts] = useState([]);
