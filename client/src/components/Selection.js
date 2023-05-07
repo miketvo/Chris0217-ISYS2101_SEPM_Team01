@@ -18,10 +18,38 @@ function Selection() {
     getProducts();
   }, []);
 
-  const userInfo = ["Dairy-Free", "Gluten-Free", "Vegetarian"];
+  const skipMeal = {
+    idx: 0,
+    label: "Skipped",
+    calories: 0,
+    dietLabels: ["Balanced"],
+    healthLabels: "[]",
+    recipe: "[]",
+    ingredients: "[]",
+    mealType: "breakfast/lunch/dinner/snack",
+    fat: 0,
+    carb: 0,
+    protein: 0,
+  };
+
+  const userMealType = ["Dairy-Free", "Gluten-Free", "Vegetarian"];
+  const userMealStyle = ["breakfast", "lunch", "dinner", "snack"];
+  const userUnPreffer = ["Salmon", "beef", "seeds"];
+
+  const totalCal = 2000;
+  const carbTotal = 500;
+  const proteinTotal = 500;
+  const fatTotal = 500;
 
   const filteredProducts = products.filter((product) => {
-    return userInfo.every((info) => product.healthLabels.includes(info));
+    return (
+      userMealType.every((info) => product.healthLabels.includes(info)) &&
+      product.calories > 100 &&
+      product.calories < 2000 &&
+      !userUnPreffer.some((unpreffered) =>
+        product.ingredients.includes(unpreffered)
+      )
+    );
   });
 
   const breakfastProducts = filteredProducts.filter(
@@ -35,70 +63,89 @@ function Selection() {
   const dinnerProducts = filteredProducts.filter(
     (product) => product.mealType && product.mealType.includes("dinner")
   );
-  const randomBreakfastProduct =
-    breakfastProducts[Math.floor(Math.random() * breakfastProducts.length)];
+  const snackProducts = filteredProducts.filter(
+    (product) => product.mealType && product.mealType.includes("snack")
+  );
 
-  const randomLunchProduct =
-    lunchProducts[Math.floor(Math.random() * lunchProducts.length)];
+  let randomBreakfastProduct = userMealStyle.includes("breakfast")
+    ? breakfastProducts[Math.floor(Math.random() * breakfastProducts.length)]
+    : skipMeal;
 
-  const randomDinnerProduct =
-    dinnerProducts[Math.floor(Math.random() * dinnerProducts.length)];
+  let randomLunchProduct = userMealStyle.includes("lunch")
+    ? lunchProducts[Math.floor(Math.random() * lunchProducts.length)]
+    : skipMeal;
 
-  const calVal = randomBreakfastProduct
-    ? Math.round(
-        randomBreakfastProduct.calories +
-          randomLunchProduct.calories +
-          randomDinnerProduct.calories
-      )
-    : 0;
-  /*const calVal = Math.round(
-    randomBreakfastProduct.calories +
-      randomLunchProduct.calories +
-      randomDinnerProduct.calories
-  );*/
+  let randomDinnerProduct = userMealStyle.includes("dinner")
+    ? dinnerProducts[Math.floor(Math.random() * dinnerProducts.length)]
+    : skipMeal;
+  let randomSnackProduct = userMealStyle.includes("snack")
+    ? snackProducts[Math.floor(Math.random() * snackProducts.length)]
+    : skipMeal;
 
-  const carbVal = randomBreakfastProduct
-    ? Math.round(
-        randomBreakfastProduct.carb +
-          randomLunchProduct.carb +
-          randomDinnerProduct.carb
-      )
-    : 0;
-  /*const carbVal = Math.round(
-    randomBreakfastProduct.carb +
-      randomLunchProduct.carb +
-      randomDinnerProduct.carb
-  );*/
+  let calVal = Math.round(
+    (randomBreakfastProduct?.calories || 0) +
+      (randomLunchProduct?.calories || 0) +
+      (randomDinnerProduct?.calories || 0) +
+      (randomSnackProduct?.calories || 0)
+  );
 
-  const proteinVal = randomBreakfastProduct
-    ? Math.round(
-        randomBreakfastProduct.protein +
-          randomLunchProduct.protein +
-          randomDinnerProduct.protein
-      )
-    : 0;
-  /*const proteinVal = Math.round(
-    randomBreakfastProduct.protein +
-      randomLunchProduct.protein +
-      randomDinnerProduct.protein
-  );*/
+  const calRange = 0.1; // range of +-10%
+  let tries = 0;
 
-  const fatVal = randomBreakfastProduct
-    ? Math.round(
-        randomBreakfastProduct.fat +
-          randomLunchProduct.fat +
-          randomDinnerProduct.fat
-      )
-    : 0;
-  /*const fatVal = Math.round(
-    randomBreakfastProduct.fat +
-      randomLunchProduct.fat +
-      randomDinnerProduct.fat
-  );*/
-  const totalCal = 2000;
-  const carbTotal = 500;
-  const proteinTotal = 500;
-  const fatTotal = 500;
+  while (Math.abs(calVal - totalCal) > totalCal * calRange) {
+    if (++tries > 100) {
+      console.log(
+        "Failed to generate a meal within the desired caloric range."
+      );
+      break;
+    }
+
+    // Generate new random meal products
+    randomBreakfastProduct = userMealStyle.includes("breakfast")
+      ? breakfastProducts[Math.floor(Math.random() * breakfastProducts.length)]
+      : skipMeal;
+
+    randomLunchProduct = userMealStyle.includes("lunch")
+      ? lunchProducts[Math.floor(Math.random() * lunchProducts.length)]
+      : skipMeal;
+
+    randomDinnerProduct = userMealStyle.includes("dinner")
+      ? dinnerProducts[Math.floor(Math.random() * dinnerProducts.length)]
+      : skipMeal;
+
+    randomSnackProduct = userMealStyle.includes("snack")
+      ? snackProducts[Math.floor(Math.random() * snackProducts.length)]
+      : skipMeal;
+
+    // Calculate the total calories of the meal
+    calVal = Math.round(
+      (randomBreakfastProduct?.calories || 0) +
+        (randomLunchProduct?.calories || 0) +
+        (randomDinnerProduct?.calories || 0) +
+        (randomSnackProduct?.calories || 0)
+    );
+  }
+
+  let carbVal = Math.round(
+    (randomBreakfastProduct?.carb || 0) +
+      (randomLunchProduct?.carb || 0) +
+      (randomDinnerProduct?.carb || 0) +
+      (randomSnackProduct?.carb || 0)
+  );
+
+  let proteinVal = Math.round(
+    (randomBreakfastProduct?.protein || 0) +
+      (randomLunchProduct?.protein || 0) +
+      (randomDinnerProduct?.protein || 0) +
+      (randomSnackProduct?.protein || 0)
+  );
+
+  let fatVal = Math.round(
+    (randomBreakfastProduct?.fat || 0) +
+      (randomLunchProduct?.fat || 0) +
+      (randomDinnerProduct?.fat || 0) +
+      (randomSnackProduct?.fat || 0)
+  );
 
   const breakfastSelect = {
     name: randomBreakfastProduct ? randomBreakfastProduct.label : "breakfast",
@@ -106,12 +153,16 @@ function Selection() {
   };
 
   const lunchSelect = {
-    name: randomLunchProduct ? randomLunchProduct.label : "lunch",
+    name: randomBreakfastProduct ? randomLunchProduct.label : "lunch",
     img: process.env.PUBLIC_URL + "/oil-pasta.jpg",
   };
 
   const dinnerSelect = {
-    name: randomDinnerProduct ? randomDinnerProduct.label : "dinner",
+    name: randomBreakfastProduct ? randomDinnerProduct.label : "dinner",
+    img: process.env.PUBLIC_URL + "/oil-pasta.jpg",
+  };
+  const snackSelect = {
+    name: randomBreakfastProduct ? randomSnackProduct.label : "snack",
     img: process.env.PUBLIC_URL + "/oil-pasta.jpg",
   };
 
@@ -168,9 +219,9 @@ function Selection() {
                   <h3>Snack</h3>
                 </div>
                 <Menu
-                  img={dinnerSelect.img}
-                  alt={dinnerSelect.name}
-                  menu={dinnerSelect.name}
+                  img={snackSelect.img}
+                  alt={snackSelect.name}
+                  menu={snackSelect.name}
                 ></Menu>
               </div>
             </div>
@@ -185,6 +236,9 @@ function Selection() {
             <h2>{randomDinnerProduct.label}</h2>
             <p>Calories: {randomDinnerProduct.calories}</p>
             <p>Meal Type: {randomDinnerProduct.mealType}</p>
+            <h2>{randomSnackProduct.label}</h2>
+            <p>Calories: {randomSnackProduct.calories}</p>
+            <p>Meal Type: {randomSnackProduct.mealType}</p>
           </div>
         </>
       )}
