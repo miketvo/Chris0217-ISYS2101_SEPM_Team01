@@ -5,6 +5,7 @@ import Progress from "./Progress";
 import Menu from "./Menu";
 
 function Selection() {
+  //products to store database information, loading for useEffect rendering
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,6 +19,7 @@ function Selection() {
     getProducts();
   }, []);
 
+  //constants for filtering database for needs
   const skipMeal = {
     idx: 0,
     label: "Skipped",
@@ -41,6 +43,7 @@ function Selection() {
   const proteinTotal = 500;
   const fatTotal = 500;
 
+  //database first filtered big before being used
   const filteredProducts = products.filter((product) => {
     return (
       userMealType.every((info) => product.healthLabels.includes(info)) &&
@@ -52,6 +55,7 @@ function Selection() {
     );
   });
 
+  //divided into each meal styles for uses
   const breakfastProducts = filteredProducts.filter(
     (product) => product.mealType && product.mealType.includes("breakfast")
   );
@@ -67,6 +71,10 @@ function Selection() {
     (product) => product.mealType && product.mealType.includes("snack")
   );
 
+  //if mealStyle is selected, it chooses random object from database.
+  //if not, set as object "skipmeal"
+  //if calories of total meals stay outside of range of error with total calories,
+  //run it again until it fits
   let randomBreakfastProduct = userMealStyle.includes("breakfast")
     ? breakfastProducts[Math.floor(Math.random() * breakfastProducts.length)]
     : skipMeal;
@@ -100,7 +108,7 @@ function Selection() {
       break;
     }
 
-    // Generate new random meal products
+    // Generate new random meal products after failure
     randomBreakfastProduct = userMealStyle.includes("breakfast")
       ? breakfastProducts[Math.floor(Math.random() * breakfastProducts.length)]
       : skipMeal;
@@ -117,7 +125,7 @@ function Selection() {
       ? snackProducts[Math.floor(Math.random() * snackProducts.length)]
       : skipMeal;
 
-    // Calculate the total calories of the meal
+    // Calculate the total calories of the meal for next loop
     calVal = Math.round(
       (randomBreakfastProduct?.calories || 0) +
         (randomLunchProduct?.calories || 0) +
@@ -126,6 +134,7 @@ function Selection() {
     );
   }
 
+  //these are outside the loop since they don't need restrictions
   let carbVal = Math.round(
     (randomBreakfastProduct?.carb || 0) +
       (randomLunchProduct?.carb || 0) +
@@ -146,7 +155,8 @@ function Selection() {
       (randomDinnerProduct?.fat || 0) +
       (randomSnackProduct?.fat || 0)
   );
-
+  //make objects based on selected meals by generator
+  //image will be fetched with function later
   const breakfastSelect = {
     name: randomBreakfastProduct ? randomBreakfastProduct.label : "breakfast",
     img: process.env.PUBLIC_URL + "/oil-pasta.jpg",
