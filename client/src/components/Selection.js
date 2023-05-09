@@ -10,7 +10,6 @@ const APP_KEY = "73d5699d0f6499668c30c852dcb1d442";
 function Selection() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [breakfast, setBreakfast] = useState([{}]);
   const [breakfast, setBreakfast] = useState({});
   const [lunch, setLunch] = useState({});
   const [dinner, setDinner] = useState({});
@@ -150,13 +149,11 @@ function Selection() {
   };
 
   const dinnerSelect = {
-    name: randomBreakfastProduct ? randomDinnerProduct.label : "dinner",
-    img: process.env.PUBLIC_URL + "/oil-pasta.jpg",
+    name: randomDinnerProduct ? randomDinnerProduct.label : "dinner",
   };
 
   const snackSelect = {
-    name: randomBreakfastProduct ? randomSnackProduct.label : "snack",
-    img: process.env.PUBLIC_URL + "/oil-pasta.jpg",
+    name: randomSnackProduct ? randomSnackProduct.label : "snack",
   };
 
  //fetch image from api
