@@ -3,7 +3,6 @@ import Progress from "./Progress";
 import "./PopPage.css";
 import "./Dashboard.css";
 import axios from "../api/axios";
-import PopResult from "./PopResult";
 import Selection from "./Selection";
 function PopPage() {
   //우선 마지막 3-4개가 Meal Type, 나머지는 Meal Style

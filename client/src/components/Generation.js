@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Generation.css";
 import PopPage from "./PopPage";
-import PopResult from "./PopResult";
 import "./PopPage.css";
 
 function Generation() {
@@ -46,7 +45,6 @@ function Generation() {
         </>
       ) : (
         <>
-          <PopResult></PopResult>
           <button onClick={setAgain}>Reset</button>
         </>
       )}

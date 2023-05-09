@@ -4,17 +4,22 @@ import "./Selection.css";
 import Progress from "./Progress";
 import Menu from "./Menu";
 
+const APP_ID = "25d1f83f";
+const APP_KEY = "73d5699d0f6499668c30c852dcb1d442";
+
 function Selection() {
   const [products, setProducts] = useState([]);
-
   const [loading, setLoading] = useState(true);
+  // const [breakfast, setBreakfast] = useState([{}]);
+  const [breakfast, setBreakfast] = useState({});
+  const [lunch, setLunch] = useState({});
+  const [dinner, setDinner] = useState({});
+  const [snack, setSnack] = useState({});
 
   useEffect(() => {
     const getProducts = async () => {
       const response = await axios.get("http://localhost:3500/api");
-
       setProducts(response.data);
-
       setLoading(false);
     };
 
@@ -138,12 +143,10 @@ function Selection() {
 
   const breakfastSelect = {
     name: randomBreakfastProduct ? randomBreakfastProduct.label : "breakfast",
-    img: process.env.PUBLIC_URL + "/oil-pasta.jpg",
   };
 
   const lunchSelect = {
-    name: randomBreakfastProduct ? randomLunchProduct.label : "lunch",
-    img: process.env.PUBLIC_URL + "/oil-pasta.jpg",
+    name: randomLunchProduct ? randomLunchProduct.label : "lunch",
   };
 
   const dinnerSelect = {
@@ -156,6 +159,86 @@ function Selection() {
     img: process.env.PUBLIC_URL + "/oil-pasta.jpg",
   };
 
+ //fetch image from api
+ 
+  const fetchBreakfastImages = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.edamam.com/api/recipes/v2?type=public&q=${breakfastSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+      );
+      const hits = response.data.hits;
+      if (hits.length > 0) {
+        const firstHit = hits[0]; // Get the first hit
+        const recipe = firstHit.recipe; // Extract the recipe object from the hit
+        if (recipe.image) {
+          setBreakfast(recipe); // Update the recipe state variable with the recipe object from the first hit, if it has an image
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchLunchImages = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.edamam.com/api/recipes/v2?type=public&q=${lunchSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+      );
+      const hits = response.data.hits;
+      if (hits.length > 0) {
+        const firstHit = hits[0]; // Get the first hit
+        const recipe = firstHit.recipe; // Extract the recipe object from the hit
+        if (recipe.image) {
+          setLunch(recipe); // Update the recipe state variable with the recipe object from the first hit, if it has an image
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchDinnerImages = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.edamam.com/api/recipes/v2?type=public&q=${dinnerSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+      );
+      const hits = response.data.hits;
+      if (hits.length > 0) {
+        const firstHit = hits[0]; // Get the first hit
+        const recipe = firstHit.recipe; // Extract the recipe object from the hit
+        if (recipe.image) {
+          setDinner(recipe); // Update the recipe state variable with the recipe object from the first hit, if it has an image
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchSnackImages = async () => {
+    try {
+      const response = await axios.get(
+        `https://api.edamam.com/api/recipes/v2?type=public&q=${snackSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+      );
+      const hits = response.data.hits;
+      if (hits.length > 0) {
+        const firstHit = hits[0]; // Get the first hit
+        const recipe = firstHit.recipe; // Extract the recipe object from the hit
+        if (recipe.image) {
+          setSnack(recipe); // Update the recipe state variable with the recipe object from the first hit, if it has an image
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBreakfastImages();
+    fetchLunchImages();
+    fetchDinnerImages();
+    fetchSnackImages();
+
+  }, []);
+
   return (
     <>
       {loading ? (
@@ -165,15 +248,12 @@ function Selection() {
           <div className="testing">
             <div className="progress-container">
               <Progress heading="Calories" value={calVal} total={totalCal} />
-
               <Progress heading="Carb" value={carbVal} total={carbTotal} />
-
               <Progress
                 heading="Protein"
                 value={proteinVal}
                 total={proteinTotal}
               />
-
               <Progress heading="Fat" value={fatVal} total={fatTotal} />
             </div>
 
@@ -182,75 +262,68 @@ function Selection() {
                 <div className="item-heading">
                   <h3>Breakfast</h3>
                 </div>
-
-                <Menu
-                  img={breakfastSelect.img}
-                  alt={breakfastSelect.name}
-                  menu={breakfastSelect.name}
-                ></Menu>
+                {breakfast.image && ( // Only render the Menu component if an image is available in the recipe object
+                  <Menu
+                    img={breakfast.image}
+                    alt={breakfastSelect.name}
+                    menu={breakfastSelect.name}
+                  />
+                )}
               </div>
 
               <div className="item lunch">
                 <div className="item-heading">
                   <h3>Lunch</h3>
                 </div>
-
-                <Menu
-                  img={lunchSelect.img}
-                  alt={lunchSelect.name}
-                  menu={lunchSelect.name}
-                ></Menu>
+                {lunch.image && ( // Only render the Menu component if an image is available in the recipe object
+                  <Menu
+                    img={lunch.image}
+                    alt={lunchSelect.name}
+                    menu={lunchSelect.name}
+                  />
+                )}
               </div>
 
               <div className="item dinner">
                 <div className="item-heading">
                   <h3>Dinner</h3>
                 </div>
-
-                <Menu
-                  img={dinnerSelect.img}
-                  alt={dinnerSelect.name}
-                  menu={dinnerSelect.name}
-                ></Menu>
+                {dinner.image && ( // Only render the Menu component if an image is available in the recipe object
+                  <Menu
+                    img={dinner.image}
+                    alt={dinnerSelect.name}
+                    menu={dinnerSelect.name}
+                  />
+                )}
               </div>
 
               <div className="item snack">
                 <div className="item-heading">
                   <h3>Snack</h3>
                 </div>
-
-                <Menu
-                  img={snackSelect.img}
-                  alt={snackSelect.name}
-                  menu={snackSelect.name}
-                ></Menu>
+                {snack.image && ( // Only render the Menu component if an image is available in the recipe object
+                  <Menu
+                    img={snack.image}
+                    alt={snackSelect.name}
+                    menu={snackSelect.name}
+                  />
+                )}
               </div>
             </div>
           </div>
 
           <div className="testing">
             <h2>{randomBreakfastProduct.label}</h2>
-
             <p>Calories: {randomBreakfastProduct.calories}</p>
-
             <p>Meal Type: {randomBreakfastProduct.mealType}</p>
-
             <h2>{randomLunchProduct.label}</h2>
-
             <p>Calories:{randomLunchProduct.calories}</p>
-
             <p>Meal Type: {randomLunchProduct.mealType}</p>
-
             <h2>{randomDinnerProduct.label}</h2>
-
             <p>Calories: {randomDinnerProduct.calories}</p>
-
             <p>Meal Type: {randomDinnerProduct.mealType}</p>
-
             <h2>{randomSnackProduct.label}</h2>
-
             <p>Calories: {randomSnackProduct.calories}</p>
-
             <p>Meal Type: {randomSnackProduct.mealType}</p>
           </div>
         </>
