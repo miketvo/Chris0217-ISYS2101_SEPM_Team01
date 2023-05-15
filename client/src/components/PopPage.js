@@ -3,6 +3,7 @@ import "./PopPage.css";
 import "./Dashboard.css";
 import axios from "axios";
 import Selection from "./Selection";
+import { flushCache } from "./Memoization";
 const POPUP_URL = "/home";
 function PopPage() {
   //우선 마지막 3-4개가 Meal Type, 나머지는 Meal Style
@@ -70,7 +71,8 @@ function PopPage() {
   }
   const [countRe, setCountRe] = useState(0);
   function handleReRecommend(event) {
-    //setCountRe(countRe + 1);
+    flushCache();
+    setCountRe(countRe + 1);
     const { id } = event.target;
     setCheckedState((prevState) => {
       const newState = prevState.map((item) => {
@@ -87,6 +89,7 @@ function PopPage() {
   //이거는 그냥 홈페이지 다시 로드하면서 팝업 꺼지게
 
   const handleConfirmClick = async (event) => {
+    flushCache();
     const mealUserArray = window.mealArray;
     const mealPlanInfo = window.mealPlanInfo;
     console.log(mealUserArray);

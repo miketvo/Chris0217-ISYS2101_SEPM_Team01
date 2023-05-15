@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Generation.css";
 import PopPage from "./PopPage";
-import PopResult from "./PopResult";
 import "./PopPage.css";
 import Progress from "./Progress";
 import Menu from "./Menu";
 import axios from "../api/axios";
+import { flushCache } from "./Memoization";
 
 const fetchData = async () => {
   const response = await axios.get("http://localhost:3500/history");
@@ -45,6 +45,9 @@ function Generation() {
   };
 
   const today = new Date();
+  /*const todayAdjusted = new Date(today);
+  todayAdjusted.setDate(today.getDate() - 1);
+  const todayFormatted = todayAdjusted.toISOString().slice(0, 10);*/
   const todayFormatted = today.toISOString().slice(0, 10);
   const todayItem = mealLog
     .filter((item) => item.created_at.slice(0, 10) === todayFormatted)
@@ -83,6 +86,7 @@ function Generation() {
 
   function closePopup() {
     setIsOpen(false);
+    flushCache();
     document.body.classList.remove("popup-open");
   }
 

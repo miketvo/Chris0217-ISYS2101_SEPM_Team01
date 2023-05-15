@@ -40,6 +40,9 @@ const Dashboard = () => {
     meal: '[{"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}]',
   };
   const today = new Date();
+  /*const todayAdjusted = new Date(today);
+  todayAdjusted.setDate(today.getDate() - 1);
+  const d1day = new Date(todayAdjusted);*/
   const d1day = new Date(today);
   d1day.setDate(d1day.getDate() - 1);
   const d2day = new Date(d1day);

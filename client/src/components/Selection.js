@@ -3,19 +3,16 @@ import axios from "axios";
 import "./Selection.css";
 import Progress from "./Progress";
 import Menu from "./Menu";
+import { getMealResult } from "./Memoization";
 
 const APP_ID = "25d1f83f";
 const APP_KEY = "73d5699d0f6499668c30c852dcb1d442";
 
 function Selection(props) {
   //products to store database information, loading for useEffect rendering
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [breakfast, setBreakfast] = useState({});
-  const [lunch, setLunch] = useState({});
-  const [dinner, setDinner] = useState({});
-  const [snack, setSnack] = useState({});
-
   useEffect(() => {
     const getProducts = async () => {
       const response = await axios.get("http://localhost:3500/api");
@@ -26,25 +23,9 @@ function Selection(props) {
     getProducts();
   }, []);
 
-  //constants for filtering database for needs
-  const skipMeal = {
-    idx: 0,
-    label: "Skipped",
-    calories: 0,
-    dietLabels: ["Balanced"],
-    healthLabels: "[]",
-    recipe: "[]",
-    ingredients: "[]",
-    mealType: "breakfast/lunch/dinner/snack",
-    fat: 0,
-    carb: 0,
-    protein: 0,
-  };
-
-  //this will be fetched from other js file and database on future
+  //this will be fetched from other js file and database on future*/
   const userMealType = props.type;
   const userMealStyle = props.style;
-
   console.log(userMealType);
   console.log(userMealStyle);
   const userUnPreffer = ["Salmon", "beef", "seeds"];
@@ -54,142 +35,72 @@ function Selection(props) {
   const proteinTotal = Math.round(((totalCal / 100) * 15) / 4);
   const fatTotal = Math.round(((totalCal / 100) * 35) / 9);
 
-  //database first filtered big before being used
-  const filteredProducts = products.filter((product) => {
-    return (
-      userMealStyle.every((info) => product.healthLabels.includes(info)) &&
-      product.calories > 100 &&
-      product.calories < 2000 &&
-      !userUnPreffer.some((unpreffered) =>
-        product.ingredients.includes(unpreffered)
-      )
-    );
-  });
-
-  //divided into each meal styles for uses
-  const breakfastProducts = filteredProducts.filter(
-    (product) => product.mealType && product.mealType.includes("breakfast")
+  //running with Creation.js
+  /*const mealResult = Creation(
+    userMealType,
+    userMealStyle,
+    products,
+    userUnPreffer,
+    totalCal
+  );*/
+  const mealResult = getMealResult(
+    userMealType,
+    userMealStyle,
+    products,
+    userUnPreffer,
+    totalCal
   );
 
-  const lunchProducts = filteredProducts.filter(
-    (product) => product.mealType && product.mealType.includes("lunch")
-  );
+  const fixedBreakfastProduct = mealResult[0];
+  const fixedLunchProduct = mealResult[1];
+  const fixedDinnerProduct = mealResult[2];
+  const fixedSnackProduct = mealResult[3];
+  const fixedCalVal = mealResult[4];
+  const fixedCarbVal = mealResult[5];
+  const fixedProteinVal = mealResult[6];
+  const fixedFatVal = mealResult[7];
 
-  const dinnerProducts = filteredProducts.filter(
-    (product) => product.mealType && product.mealType.includes("dinner")
-  );
-  const snackProducts = filteredProducts.filter(
-    (product) => product.mealType && product.mealType.includes("snack")
-  );
+  const breakfastFirstSelect = {
+    name: fixedBreakfastProduct ? fixedBreakfastProduct.label : "breakfast",
+  };
 
-  //if mealStyle is selected, it chooses random object from database.
-  //if not, set as object "skipmeal"
-  //if calories of total meals stay outside of range of error with total calories,
-  //run it again until it fits
-  let randomBreakfastProduct = userMealType.includes("breakfast")
-    ? breakfastProducts[Math.floor(Math.random() * breakfastProducts.length)]
-    : skipMeal;
+  const lunchFirstSelect = {
+    name: fixedLunchProduct ? fixedLunchProduct.label : "lunch",
+  };
 
-  let randomLunchProduct = userMealType.includes("lunch")
-    ? lunchProducts[Math.floor(Math.random() * lunchProducts.length)]
-    : skipMeal;
+  const dinnerFirstSelect = {
+    name: fixedDinnerProduct ? fixedDinnerProduct.label : "dinner",
+  };
+  const snackFirstSelect = {
+    name: fixedSnackProduct ? fixedSnackProduct.label : "snack",
+  };
 
-  let randomDinnerProduct = userMealType.includes("dinner")
-    ? dinnerProducts[Math.floor(Math.random() * dinnerProducts.length)]
-    : skipMeal;
-  let randomSnackProduct = userMealType.includes("snack")
-    ? snackProducts[Math.floor(Math.random() * snackProducts.length)]
-    : skipMeal;
-
-  let calVal = Math.round(
-    (randomBreakfastProduct?.calories || 0) +
-      (randomLunchProduct?.calories || 0) +
-      (randomDinnerProduct?.calories || 0) +
-      (randomSnackProduct?.calories || 0)
-  );
-
-  const calRange = 0.1; // range of +-10%
-  let tries = 0;
-
-  while (Math.abs(calVal - totalCal) > totalCal * calRange) {
-    if (++tries > 100) {
-      console.log(
-        "Failed to generate a meal within the desired caloric range."
-      );
-      break;
-    }
-
-    // Generate new random meal products after failure
-    randomBreakfastProduct = userMealType.includes("breakfast")
-      ? breakfastProducts[Math.floor(Math.random() * breakfastProducts.length)]
-      : skipMeal;
-
-    randomLunchProduct = userMealType.includes("lunch")
-      ? lunchProducts[Math.floor(Math.random() * lunchProducts.length)]
-      : skipMeal;
-
-    randomDinnerProduct = userMealType.includes("dinner")
-      ? dinnerProducts[Math.floor(Math.random() * dinnerProducts.length)]
-      : skipMeal;
-
-    randomSnackProduct = userMealType.includes("snack")
-      ? snackProducts[Math.floor(Math.random() * snackProducts.length)]
-      : skipMeal;
-
-    // Calculate the total calories of the meal for next loop
-    calVal = Math.round(
-      (randomBreakfastProduct?.calories || 0) +
-        (randomLunchProduct?.calories || 0) +
-        (randomDinnerProduct?.calories || 0) +
-        (randomSnackProduct?.calories || 0)
-    );
-  }
-  const fixedBreakfastProduct = randomBreakfastProduct;
-  const fixedLunchProduct = randomLunchProduct;
-  const fixedDinnerProduct = randomDinnerProduct;
-  const fixedSnackProduct = randomSnackProduct;
-
-  const fixedCalVal = Math.round(
-    (fixedBreakfastProduct?.calories || 0) +
-      (fixedLunchProduct?.calories || 0) +
-      (fixedDinnerProduct?.calories || 0) +
-      (fixedSnackProduct?.calories || 0)
-  );
-
-  const fixedCarbVal = Math.round(
-    (fixedBreakfastProduct?.carb || 0) +
-      (fixedLunchProduct?.carb || 0) +
-      (fixedDinnerProduct?.carb || 0) +
-      (fixedSnackProduct?.carb || 0)
-  );
-
-  const fixedProteinVal = Math.round(
-    (fixedBreakfastProduct?.protein || 0) +
-      (fixedLunchProduct?.protein || 0) +
-      (fixedDinnerProduct?.protein || 0) +
-      (fixedSnackProduct?.protein || 0)
-  );
-
-  const fixedFatVal = Math.round(
-    (fixedBreakfastProduct?.fat || 0) +
-      (fixedLunchProduct?.fat || 0) +
-      (fixedDinnerProduct?.fat || 0) +
-      (fixedSnackProduct?.fat || 0)
-  );
+  /*const testBreakfast = "Quinoatmeal with Apple and Toasted Walnuts recipes";
+  const testLunch = "Easy Roasted Cabbage Recipe";
+  const testDinner = "Easy Roasted Cabbage Recipe";
+  const testSnack = "Beet Hummus";
+  const testCalVal = 2000;
+  const testCarbVal = 200;
+  const testProteinVal = 70;
+  const testFatVal = 70;*/
 
   //fetch image from api
-
-  /*const fetchBreakfastImages = async () => {
+  const [breakfast, setBreakfast] = useState({});
+  const [lunch, setLunch] = useState({});
+  const [dinner, setDinner] = useState({});
+  const [snack, setSnack] = useState({});
+  const fetchBreakfastImages = async () => {
     try {
       const response = await axios.get(
-        `https://api.edamam.com/api/recipes/v2?type=public&q=${breakfastSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+        `https://api.edamam.com/api/recipes/v2?type=public&q=${breakfastFirstSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+        //`https://api.edamam.com/api/recipes/v2?type=public&q=${testBreakfast}&app_id=${APP_ID}&app_key=${APP_KEY}`
       );
       const hits = response.data.hits;
       if (hits.length > 0) {
         const firstHit = hits[0]; // Get the first hit
         const recipe = firstHit.recipe; // Extract the recipe object from the hit
         if (recipe.image) {
-          setBreakfast(recipe); // Update the recipe state variable with the recipe object from the first hit, if it has an image
+          setBreakfast(recipe.image); // Update the recipe state variable with the recipe object from the first hit, if it has an image
         }
       }
     } catch (error) {
@@ -200,14 +111,15 @@ function Selection(props) {
   const fetchLunchImages = async () => {
     try {
       const response = await axios.get(
-        `https://api.edamam.com/api/recipes/v2?type=public&q=${lunchSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+        `https://api.edamam.com/api/recipes/v2?type=public&q=${lunchFirstSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+        //`https://api.edamam.com/api/recipes/v2?type=public&q=${testLunch}&app_id=${APP_ID}&app_key=${APP_KEY}`
       );
       const hits = response.data.hits;
       if (hits.length > 0) {
         const firstHit = hits[0]; // Get the first hit
         const recipe = firstHit.recipe; // Extract the recipe object from the hit
         if (recipe.image) {
-          setLunch(recipe); // Update the recipe state variable with the recipe object from the first hit, if it has an image
+          setLunch(recipe.image); // Update the recipe state variable with the recipe object from the first hit, if it has an image
         }
       }
     } catch (error) {
@@ -217,14 +129,15 @@ function Selection(props) {
   const fetchDinnerImages = async () => {
     try {
       const response = await axios.get(
-        `https://api.edamam.com/api/recipes/v2?type=public&q=${dinnerSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+        `https://api.edamam.com/api/recipes/v2?type=public&q=${dinnerFirstSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+        //`https://api.edamam.com/api/recipes/v2?type=public&q=${testDinner}&app_id=${APP_ID}&app_key=${APP_KEY}`
       );
       const hits = response.data.hits;
       if (hits.length > 0) {
         const firstHit = hits[0]; // Get the first hit
         const recipe = firstHit.recipe; // Extract the recipe object from the hit
         if (recipe.image) {
-          setDinner(recipe); // Update the recipe state variable with the recipe object from the first hit, if it has an image
+          setDinner(recipe.image); // Update the recipe state variable with the recipe object from the first hit, if it has an image
         }
       }
     } catch (error) {
@@ -234,14 +147,15 @@ function Selection(props) {
   const fetchSnackImages = async () => {
     try {
       const response = await axios.get(
-        `https://api.edamam.com/api/recipes/v2?type=public&q=${snackSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+        `https://api.edamam.com/api/recipes/v2?type=public&q=${snackFirstSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
+        //`https://api.edamam.com/api/recipes/v2?type=public&q=${testSnack}&app_id=${APP_ID}&app_key=${APP_KEY}`
       );
       const hits = response.data.hits;
       if (hits.length > 0) {
         const firstHit = hits[0]; // Get the first hit
         const recipe = firstHit.recipe; // Extract the recipe object from the hit
         if (recipe.image) {
-          setSnack(recipe); // Update the recipe state variable with the recipe object from the first hit, if it has an image
+          setSnack(recipe.image); // Update the recipe state variable with the recipe object from the first hit, if it has an image
         }
       }
     } catch (error) {
@@ -254,108 +168,47 @@ function Selection(props) {
     fetchLunchImages();
     fetchDinnerImages();
     fetchSnackImages();
-  }, []);*/
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const [
-          breakfastResponse,
-          lunchResponse,
-          dinnerResponse,
-          snackResponse,
-        ] = await Promise.all([
-          axios.get(
-            `https://api.edamam.com/api/recipes/v2?type=public&q=${fixedBreakfastProduct?.label}&app_id=${APP_ID}&app_key=${APP_KEY}`
-          ),
-          axios.get(
-            `https://api.edamam.com/api/recipes/v2?type=public&q=${fixedLunchProduct?.label}&app_id=${APP_ID}&app_key=${APP_KEY}`
-          ),
-          axios.get(
-            `https://api.edamam.com/api/recipes/v2?type=public&q=${fixedDinnerProduct?.label}&app_id=${APP_ID}&app_key=${APP_KEY}`
-          ),
-          axios.get(
-            `https://api.edamam.com/api/recipes/v2?type=public&q=${fixedSnackProduct?.label}&app_id=${APP_ID}&app_key=${APP_KEY}`
-          ),
-        ]);
-
-        const breakfastHits = breakfastResponse.data.hits;
-        const lunchHits = lunchResponse.data.hits;
-        const dinnerHits = dinnerResponse.data.hits;
-        const snackHits = snackResponse.data.hits;
-
-        if (breakfastHits.length > 0) {
-          const firstHit = breakfastHits[0];
-          const recipe = firstHit.recipe;
-          if (recipe.image) {
-            setBreakfast(recipe);
-          }
-        }
-
-        if (lunchHits.length > 0) {
-          const firstHit = lunchHits[0];
-          const recipe = firstHit.recipe;
-          if (recipe.image) {
-            setLunch(recipe);
-          }
-        }
-
-        if (dinnerHits.length > 0) {
-          const firstHit = dinnerHits[0];
-          const recipe = firstHit.recipe;
-          if (recipe.image) {
-            setDinner(recipe);
-          }
-        }
-
-        if (snackHits.length > 0) {
-          const firstHit = snackHits[0];
-          const recipe = firstHit.recipe;
-          if (recipe.image) {
-            setSnack(recipe);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    if (fixedBreakfastProduct) {
-      fetchImages();
-    }
-  }, [fixedBreakfastProduct]);
+  }, [mealResult]);
 
   //make objects based on selected meals by generator
   //image will be fetched with function later
   const breakfastSelect = {
     name: fixedBreakfastProduct ? fixedBreakfastProduct.label : "breakfast",
-    img: breakfast ? breakfast.image : "image",
+    //name: testBreakfast,
+    img: breakfast ? breakfast : "image",
   };
 
   const lunchSelect = {
     name: fixedLunchProduct ? fixedLunchProduct.label : "lunch",
-    img: lunch ? lunch.image : "lunch",
+    //name: testLunch,
+    img: lunch ? lunch : "lunch",
   };
 
   const dinnerSelect = {
     name: fixedDinnerProduct ? fixedDinnerProduct.label : "dinner",
-    img: dinner ? dinner.image : "dinner",
+    //name: testDinner,
+    img: dinner ? dinner : "dinner",
   };
   const snackSelect = {
     name: fixedSnackProduct ? fixedSnackProduct.label : "snack",
-    img: snack ? snack.image : "snack",
+    //name: testSnack,
+    img: snack ? snack : "snack",
   };
 
   const mealArray = [breakfastSelect, lunchSelect, dinnerSelect, snackSelect];
   window.mealArray = mealArray;
   const mealPlanInfo = [
     totalCal,
+    //testCalVal,
     fixedCalVal,
     carbTotal,
+    //testCarbVal,
     fixedCarbVal,
     proteinTotal,
+    //testProteinVal,
     fixedProteinVal,
     fatTotal,
+    //testFatVal,
     fixedFatVal,
   ];
   window.mealPlanInfo = mealPlanInfo;
@@ -371,16 +224,24 @@ function Selection(props) {
             <div className="progress-container">
               <Progress
                 heading="Calories"
-                value={fixedCalVal}
+                value={fixedCalVal} //{testCalVal}
                 total={totalCal}
               />
-              <Progress heading="Carb" value={fixedCarbVal} total={carbTotal} />
+              <Progress
+                heading="Carb"
+                value={fixedCarbVal} //{testCarbVal}
+                total={carbTotal}
+              />
               <Progress
                 heading="Protein"
-                value={fixedProteinVal}
+                value={fixedProteinVal} //{testProteinVal}
                 total={proteinTotal}
               />
-              <Progress heading="Fat" value={fixedFatVal} total={fatTotal} />
+              <Progress
+                heading="Fat"
+                value={fixedFatVal} //{testFatVal}
+                total={fatTotal}
+              />
             </div>
             <div className="popup-result">
               <div className="item breakfast">
