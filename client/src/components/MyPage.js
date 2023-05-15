@@ -5,7 +5,7 @@ import './MyPage.css'
 function MyPage() {
   const [formData, setFormData] = useState({
     // username: ReactSession.get("user"),
-    username: '',
+    username: sessionStorage.getItem("name"),
     age: '',
     sex:'',
     height: '',

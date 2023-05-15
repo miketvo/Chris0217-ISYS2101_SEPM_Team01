@@ -747,3 +747,8 @@
 20230515	14:11:49	f3529c6b-0bc4-4344-8a48-ae88b7aeec34	OPTIONS	http://localhost:3000	/login
 20230515	14:13:16	371acc9b-fa8c-440e-907a-babf793fa48b	OPTIONS	http://localhost:3000	/login
 20230515	14:13:16	c908954d-6651-44a1-ae85-cff87eb5b67f	POST	http://localhost:3000	/login
+20230515	14:18:09	eb2496fe-fbe0-4ea2-a736-351a3a2774c3	OPTIONS	http://localhost:3000	/login
+20230515	14:18:09	cd078279-7441-4c1d-866c-771df25c2df4	POST	http://localhost:3000	/login
+20230515	14:18:12	2198f575-f5ef-4945-9376-1e6b7da14738	POST	http://localhost:3000	/login
+20230515	14:18:13	3c273730-608b-4005-b1e4-7444dd51eebe	OPTIONS	http://localhost:3000	/
+20230515	14:18:13	fe33bd0a-752d-4d22-b3c1-0fc1ee35e65a	GET	http://localhost:3000	/
