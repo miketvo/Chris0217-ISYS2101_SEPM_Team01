@@ -19,11 +19,9 @@ function Login() {
     useEffect(() => {
         userRef.current.focus();
     }, []);
-
     useEffect(() => {
         setErrMsg("");
     }, [user, pwd]);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,9 +43,9 @@ function Login() {
             if (!err?.response) {
                 setErrMsg("No Server Response");
             } else if (err.response?.status === 400) {
-                setErrMsg("Missing Username or Password");
+                setErrMsg("Username not found");
             } else if (err.response?.status === 401) {
-                setErrMsg("Unauthorized");
+                setErrMsg("Wrong password");
             } else {
                 setErrMsg("Login Failed");
             }
@@ -62,7 +60,7 @@ function Login() {
                     <h1>You are logged in!</h1>
                     <br />
                     <p>
-                        <a href="#">Go to Home</a>
+                        <a><Link to="/home">Go to Home</Link></a>
                     </p>
                 </section>
             ) : (

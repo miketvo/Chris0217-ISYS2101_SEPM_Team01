@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 import "./NavbarStyle.css";
 
 class Navbar extends Component {
@@ -14,13 +15,13 @@ class Navbar extends Component {
             /*a href 들은 나중에 페이지 우리가 만들면 Link 임포트 해서 라우트 넣어쥬면 돼효~~~ 지금은 임시입니답!*/
             <>
                 <nav>
-                    <a href="#">
+                    <a><Link to="/home">
                         <img
                             src={require("../images/Mearie_Logo_Hori.png")}
                             className="logo"
                             alt="Mearie"
                         />
-                    </a>
+                    </Link></a>
                     <div>
                         <ul
                             id="navbar"
@@ -31,16 +32,16 @@ class Navbar extends Component {
                             }
                         >
                             <li>
-                                <a href="#">Archive</a>
+                                <a><Link to="/">Archive</Link></a>
                             </li>
                             <li>
-                                <a href="#">Community</a>
+                                <a><Link to="/">Community</Link></a>
                             </li>
                             <li>
-                                <a href="#">My Page</a>
+                                <a><Link to="/mypage">My Page</Link></a>
                             </li>
                             <li>
-                                <a href="#">About</a>
+                            <a><Link to="/">About</Link></a>
                             </li>
                         </ul>
                     </div>

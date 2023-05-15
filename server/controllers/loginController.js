@@ -8,7 +8,7 @@ const handleLogin = async (req, res) => {
     // 아래 코드는 백엔드로 input 데이터가 잘 전달되었는지 확인하기 위한 코드입니다~ 테스트해 보고 싶으시면 해제해서 사용해 보셔도 돼요 (세션 같은 건 비포 애프터가 잘 보입니다)
     console.log("input name: [", input_name, "]");
     console.log("input pw: [", input_pw, "]");
-    // console.log("세션:", req.session);  // 라인 26이랑 비포 애프터 확인 용도
+    console.log("세션:", req.session); // 라인 26이랑 비포 애프터 확인 용도
 
     // 대부분의 콘솔 로그는 제가 테스트해 보며 확인한 용도라서 주석으로 처리하고 진행하셔도 무방합니다
     const sql1 =
@@ -42,12 +42,14 @@ const handleLogin = async (req, res) => {
                 } else {
                     // 비밀번호가 일치하지 않는 경우
                     console.log("비밀번호 일치:", validPassword); // (= false)
+                    return res.sendStatus(401);
                 }
             });
         } else if (data[0].result == 0) {
             // 유저가 입력한 username이 존재하지 않는 경우
             console.log("결과:", data[0].result); // 0 (= 데이터베이스 내 COUNT 결과 값이 0)
             console.log("입력하신 id가 일치하지 않습니다.");
+            return res.sendStatus(400);
         } else {
             console.log("errorcode:", err);
         }
