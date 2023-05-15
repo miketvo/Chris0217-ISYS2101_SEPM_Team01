@@ -52,9 +52,9 @@ a:hover {
     color: rgb(106, 110, 136);
 }
 
-input[type="text"],
-input[type="password"],
+input,
 button,
+select,
 textarea {
   font-family: 'Nunito', sans-serif;
   font-size: 22px;
