@@ -35,14 +35,6 @@ function Selection(props) {
   const proteinTotal = Math.round(((totalCal / 100) * 15) / 4);
   const fatTotal = Math.round(((totalCal / 100) * 35) / 9);
 
-  //running with Creation.js
-  /*const mealResult = Creation(
-    userMealType,
-    userMealStyle,
-    products,
-    userUnPreffer,
-    totalCal
-  );*/
   const mealResult = getMealResult(
     userMealType,
     userMealStyle,
@@ -75,15 +67,6 @@ function Selection(props) {
     name: fixedSnackProduct ? fixedSnackProduct.label : "snack",
   };
 
-  /*const testBreakfast = "Quinoatmeal with Apple and Toasted Walnuts recipes";
-  const testLunch = "Easy Roasted Cabbage Recipe";
-  const testDinner = "Easy Roasted Cabbage Recipe";
-  const testSnack = "Beet Hummus";
-  const testCalVal = 2000;
-  const testCarbVal = 200;
-  const testProteinVal = 70;
-  const testFatVal = 70;*/
-
   //fetch image from api
   const [breakfast, setBreakfast] = useState({});
   const [lunch, setLunch] = useState({});
@@ -93,7 +76,6 @@ function Selection(props) {
     try {
       const response = await axios.get(
         `https://api.edamam.com/api/recipes/v2?type=public&q=${breakfastFirstSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
-        //`https://api.edamam.com/api/recipes/v2?type=public&q=${testBreakfast}&app_id=${APP_ID}&app_key=${APP_KEY}`
       );
       const hits = response.data.hits;
       if (hits.length > 0) {
@@ -112,7 +94,6 @@ function Selection(props) {
     try {
       const response = await axios.get(
         `https://api.edamam.com/api/recipes/v2?type=public&q=${lunchFirstSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
-        //`https://api.edamam.com/api/recipes/v2?type=public&q=${testLunch}&app_id=${APP_ID}&app_key=${APP_KEY}`
       );
       const hits = response.data.hits;
       if (hits.length > 0) {
@@ -130,7 +111,6 @@ function Selection(props) {
     try {
       const response = await axios.get(
         `https://api.edamam.com/api/recipes/v2?type=public&q=${dinnerFirstSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
-        //`https://api.edamam.com/api/recipes/v2?type=public&q=${testDinner}&app_id=${APP_ID}&app_key=${APP_KEY}`
       );
       const hits = response.data.hits;
       if (hits.length > 0) {
@@ -148,7 +128,6 @@ function Selection(props) {
     try {
       const response = await axios.get(
         `https://api.edamam.com/api/recipes/v2?type=public&q=${snackFirstSelect.name}&app_id=${APP_ID}&app_key=${APP_KEY}`
-        //`https://api.edamam.com/api/recipes/v2?type=public&q=${testSnack}&app_id=${APP_ID}&app_key=${APP_KEY}`
       );
       const hits = response.data.hits;
       if (hits.length > 0) {
@@ -174,24 +153,20 @@ function Selection(props) {
   //image will be fetched with function later
   const breakfastSelect = {
     name: fixedBreakfastProduct ? fixedBreakfastProduct.label : "breakfast",
-    //name: testBreakfast,
     img: breakfast ? breakfast : "image",
   };
 
   const lunchSelect = {
     name: fixedLunchProduct ? fixedLunchProduct.label : "lunch",
-    //name: testLunch,
     img: lunch ? lunch : "lunch",
   };
 
   const dinnerSelect = {
     name: fixedDinnerProduct ? fixedDinnerProduct.label : "dinner",
-    //name: testDinner,
     img: dinner ? dinner : "dinner",
   };
   const snackSelect = {
     name: fixedSnackProduct ? fixedSnackProduct.label : "snack",
-    //name: testSnack,
     img: snack ? snack : "snack",
   };
 
@@ -199,16 +174,12 @@ function Selection(props) {
   window.mealArray = mealArray;
   const mealPlanInfo = [
     totalCal,
-    //testCalVal,
     fixedCalVal,
     carbTotal,
-    //testCarbVal,
     fixedCarbVal,
     proteinTotal,
-    //testProteinVal,
     fixedProteinVal,
     fatTotal,
-    //testFatVal,
     fixedFatVal,
   ];
   window.mealPlanInfo = mealPlanInfo;
@@ -224,24 +195,16 @@ function Selection(props) {
             <div className="progress-container">
               <Progress
                 heading="Calories"
-                value={fixedCalVal} //{testCalVal}
+                value={fixedCalVal}
                 total={totalCal}
               />
-              <Progress
-                heading="Carb"
-                value={fixedCarbVal} //{testCarbVal}
-                total={carbTotal}
-              />
+              <Progress heading="Carb" value={fixedCarbVal} total={carbTotal} />
               <Progress
                 heading="Protein"
-                value={fixedProteinVal} //{testProteinVal}
+                value={fixedProteinVal}
                 total={proteinTotal}
               />
-              <Progress
-                heading="Fat"
-                value={fixedFatVal} //{testFatVal}
-                total={fatTotal}
-              />
+              <Progress heading="Fat" value={fixedFatVal} total={fatTotal} />
             </div>
             <div className="popup-result">
               <div className="item breakfast">
