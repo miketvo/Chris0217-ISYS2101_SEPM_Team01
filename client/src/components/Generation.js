@@ -43,14 +43,16 @@ function Generation() {
     meal: '[{"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}]',
     info: "[0, 0, 0, 0, 0, 0, 0, 0]",
   };
-
-  const today = new Date();
   /*const todayAdjusted = new Date(today);
   todayAdjusted.setDate(today.getDate() - 1);
   const todayFormatted = todayAdjusted.toISOString().slice(0, 10);*/
-  const todayFormatted = today.toISOString().slice(0, 10);
+  const today = new Date();
+  const todayAdjusted = new Date(today);
+  todayAdjusted.setDate(todayAdjusted.getDate() - 1);
+  todayAdjusted.setHours(17, 0, 0, 0);
+  const todayFormatted = todayAdjusted.toISOString().slice(0, 19);
   const todayItem = mealLog
-    .filter((item) => item.created_at.slice(0, 10) === todayFormatted)
+    .filter((item) => item.created_at.slice(0, 19) >= todayFormatted)
     .sort((a, b) => b.id - a.id)[0];
   console.log(todayItem);
   const todayItemMeal = todayItem && todayItem.meal ? todayItem : notCreated;
