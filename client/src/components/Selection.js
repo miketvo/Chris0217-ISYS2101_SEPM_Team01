@@ -35,13 +35,18 @@ function Selection(props) {
   const proteinTotal = Math.round(((totalCal / 100) * 15) / 4);
   const fatTotal = Math.round(((totalCal / 100) * 35) / 9);
 
-  const mealResult = getMealResult(
-    userMealType,
-    userMealStyle,
-    products,
-    userUnPreffer,
-    totalCal
-  );
+  let mealResult = Array(8).fill("");
+  if (!loading) {
+    mealResult = getMealResult(
+      userMealType,
+      userMealStyle,
+      products,
+      userUnPreffer,
+      totalCal
+    );
+  }
+
+  console.log(mealResult);
 
   const fixedBreakfastProduct = mealResult[0];
   const fixedLunchProduct = mealResult[1];

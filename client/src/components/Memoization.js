@@ -18,7 +18,6 @@ export const getMealResult = (
       userUnPreffer,
       totalCal
     );
-    console.log(cachedResult);
   }
 
   return cachedResult;
@@ -26,5 +25,4 @@ export const getMealResult = (
 
 export const flushCache = () => {
   cachedResult = null;
-  console.log(cachedResult);
 };
