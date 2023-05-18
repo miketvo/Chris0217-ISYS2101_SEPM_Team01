@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import "./NavbarStyle.css";
 
 class Navbar extends Component {
-    /*요곳은 모바일 뷰일때, 목록 관련해서 추가한 펑션입니답! 밑에 이어져용~~~
+  /*요곳은 모바일 뷰일때, 목록 관련해서 추가한 펑션입니답! 밑에 이어져용~~~
     목록 아이콘 클릭하면 x 아이콘 뜨고, x 아이콘 클릭하면 목록 아이콘 뜨게 한거에욥*/
-    state = { clicked: false };
-    handleClick = () => {
-        this.setState({ clicked: !this.state.clicked });
-    };
+  state = { clicked: false };
+  handleClick = () => {
+    this.setState({ clicked: !this.state.clicked });
+  };
 
     render() {
         return (
@@ -46,20 +46,16 @@ class Navbar extends Component {
                         </ul>
                     </div>
 
-                    <div id="mobile" onClick={this.handleClick}>
-                        <i
-                            id="bar"
-                            className={
-                                this.state.clicked
-                                    ? "fas fa-times"
-                                    : "fas fa-bars"
-                            }
-                        ></i>
-                    </div>
-                </nav>
-            </>
-        );
-    }
+          <div id="mobile" onClick={this.handleClick}>
+            <i
+              id="bar"
+              className={this.state.clicked ? "fas fa-times" : "fas fa-bars"}
+            ></i>
+          </div>
+        </nav>
+      </>
+    );
+  }
 }
 
 export default Navbar;

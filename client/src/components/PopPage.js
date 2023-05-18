@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Progress from "./Progress";
+import React, { useState, useContext } from "react";
 import "./PopPage.css";
 import "./Dashboard.css";
-import axios from "../api/axios";
-import PopResult from "./PopResult";
+import axios from "axios";
+import Selection from "./Selection";
+const POPUP_URL = "/home";
 function PopPage() {
   //우선 마지막 3-4개가 Meal Type, 나머지는 Meal Style
   const [checkedState, setCheckedState] = useState([
@@ -11,36 +11,17 @@ function PopPage() {
     { id: 2, value: "Vegetarian", isChecked: false },
     { id: 3, value: "Gluten-Free", isChecked: false },
     { id: 4, value: "Egg-Free", isChecked: false },
-    { id: 5, value: "Breakfast", isChecked: false },
-    { id: 6, value: "Lunch", isChecked: false },
-    { id: 7, value: "Dinner", isChecked: false },
-    { id: 8, value: "Snack", isChecked: false },
+    { id: 5, value: "breakfast", isChecked: false },
+    { id: 6, value: "lunch", isChecked: false },
+    { id: 7, value: "dinner", isChecked: false },
+    { id: 8, value: "snack", isChecked: false },
   ]);
 
   //필요한 constant 설정 -> set array를 통해서 받아옵니다
   const [selectedValues, setSelectedValues] = useState([]);
+  const [selectedTypeValues, setSelectedTypeValues] = useState([]);
+  const [selectedStyleValues, setSelectedStyleValues] = useState([]);
   const [showDiv, setShowDiv] = useState(false);
-
-  //이거는 그냥 홈페이지 다시 로드하면서 팝업 꺼지게
-  const handleConfirmClick = () => {
-    window.location.href = "http://localhost:3000/home";
-  };
-
-  //이건 display될 탄단지 비율입니다
-  const calValue = 1500;
-  const calTotal = 2000;
-
-  const carbValue = 100;
-  const carbTotal = 200;
-
-  const proteinValue = 150;
-  const proteinTotal = 200;
-
-  const fatValue = 50;
-  const fatTotal = 200;
-
-  //json challenge
-  const POPUP_URL = "/home";
 
   //submit 이전에는 꼭 meal type 중 1개는 선탁해야 submit 가능
   //submit 이후에 콘솔로 선택한 value 리턴하고 메뉴 출력함
@@ -62,38 +43,14 @@ function PopPage() {
     );
     const selectedStyleValues = selectedStyleItems.map((item) => item.value);
     console.log("Selected style:", selectedStyleValues);
+    setSelectedStyleValues(selectedStyleValues);
     //selected type array creation
     const selectedTypeItems = selectedItems.filter(
       (item) => item.id >= 5 && item.id <= 8
     );
     const selectedTypeValues = selectedTypeItems.map((item) => item.value);
     console.log("Selected type:", selectedTypeValues);
-    window.selectedStyle = selectedStyleValues;
-    window.selectedType = selectedTypeValues;
-    //json 보내는 코드(우선 지금은 비활성화)
-    /*const userInput = {
-      userType: selectedTypeValues,
-      userStyle: selectedStyleValues,
-    };
-    try {
-      const responseInput = await axios.post(
-        POPUP_URL,
-        JSON.stringify({ selectedTypeValues, selectedStyleValues }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-    } catch (err) {
-      /*if (!err?.response) {
-        setErrMsg("No Server Response");
-      } else {
-        setErrMsg("Failed");
-      }
-      errRef.current.focus();
-      console.error(err);
-    }
-    */
+    setSelectedTypeValues(selectedTypeValues);
     setSelectedValues(selectedValues);
     setShowDiv(true);
   };
@@ -112,9 +69,43 @@ function PopPage() {
     });
   }
   const [countRe, setCountRe] = useState(0);
-  function handleReRecommend() {
-    setCountRe(countRe + 1);
+  function handleReRecommend(event) {
+    //setCountRe(countRe + 1);
+    const { id } = event.target;
+    setCheckedState((prevState) => {
+      const newState = prevState.map((item) => {
+        if (item.id === Number(id)) {
+          return { ...item, isChecked: !item.isChecked };
+        }
+        return item;
+      });
+      return newState;
+    });
   }
+  //json challenge
+
+  //이거는 그냥 홈페이지 다시 로드하면서 팝업 꺼지게
+
+  const handleConfirmClick = async (event) => {
+    const mealUserArray = window.mealArray;
+    const mealPlanInfo = window.mealPlanInfo;
+    console.log(mealUserArray);
+    event.preventDefault();
+    try {
+      window.location.href = "http://localhost:3000/home";
+      const responseInput = await axios.post(
+        "http://localhost:3500/home",
+        { mealUserArray, mealPlanInfo },
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      console.log("Sent somehow");
+    } catch (err) {
+      console.log("Failed somehow");
+    }
+  };
   return (
     <>
       <div className="popup-wrapper">
@@ -170,7 +161,10 @@ function PopPage() {
                 <div className="popup-result-title">
                   <h2>Today's Recommendation</h2>
                 </div>
-                <PopResult></PopResult>
+                <Selection
+                  type={selectedTypeValues}
+                  style={selectedStyleValues}
+                ></Selection>
                 <div className="popup-buttons">
                   <button onClick={handleReRecommend}>Re-recommend</button>
                   <button onClick={handleConfirmClick}>Confirm</button>

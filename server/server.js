@@ -45,7 +45,12 @@ app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
 app.use('/mypage', require('./routes/mypage'));
 // app.use('/logout', require('./routes/logout'));
-app.use("/home",require("./routes/popup"));
+app.use('/api', require('./routes/Api'));
+app.use("/home", require("./routes/popup"));
+app.use('/history', require('./routes/history'));
+
+/*
+아래의 코드 세 줄은 '/server/controllers'에서 'register.js'를 제외한 모든 코드의 소스를 수정해야만 사용 가능하니 주석 해제하지 말아 주세요!
 
 app.all("*", (req, res) => {
   res.status(404);
@@ -60,4 +65,4 @@ app.all("*", (req, res) => {
 
 app.use(errorHandler);
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));*/
