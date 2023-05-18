@@ -1784,6 +1784,7 @@
 20230515	22:17:25	3df9eeac-c8d5-4ab3-bbf1-8aa189330c23	GET	http://localhost:3000	/history
 20230515	22:17:25	1f155ff8-ca8e-4cb8-a49e-3d09b6a671a4	GET	http://localhost:3000	/history
 20230515	22:19:29	2feda735-3780-4fa9-9959-7d7e8ea21d4c	GET	http://localhost:3000	/history
+<<<<<<< HEAD
 20230516	08:57:28	2312e46c-83ca-4de0-b3c9-243236e47d7b	GET	http://localhost:3000	/history
 20230516	08:57:29	32d08925-f40c-44dc-b3ca-d41a6d124720	GET	http://localhost:3000	/history
 20230516	08:57:29	8f4227fc-8689-455f-b4cd-cf4117614cfa	GET	http://localhost:3000	/history
@@ -1981,3 +1982,22 @@
 20230518	20:31:29	8b88bc50-2d33-44dc-8c16-34c0cead0c17	GET	http://localhost:3000	/history
 20230518	20:31:30	a084d4cb-85ea-4ea8-90d7-ce9024533c07	GET	http://localhost:3000	/history
 20230518	20:31:31	ff4f7176-31f9-47be-84ec-943a0a57379e	GET	http://localhost:3000	/api
+=======
+20230518	18:27:20	a40cb1ab-cb5d-4d6c-91ff-f414520c5352	GET	http://localhost:3000	/history
+20230518	18:27:20	bc88f41e-0639-4655-b507-240fc0343085	GET	http://localhost:3000	/history
+20230518	18:27:20	8799a2d8-7b44-4b59-a8df-b4f18e330011	GET	http://localhost:3000	/history
+20230518	18:28:35	b3d0c929-886f-47b1-94cc-038f3430dec6	GET	http://localhost:3000	/history
+20230518	18:28:35	2c7f2498-1f68-4578-b70b-7fe16119c7ad	GET	http://localhost:3000	/history
+20230518	18:28:35	a436928e-ac6c-4d5d-9c75-797a13d463ab	GET	http://localhost:3000	/history
+20230518	18:29:07	d6b23a84-88a8-4494-bd4a-c88a966d7016	GET	http://localhost:3000	/history
+20230518	18:29:07	c4321faf-ce88-4582-bd1b-d48e15e2e07e	GET	http://localhost:3000	/history
+20230518	18:29:07	d7036028-d8d4-4ed3-b48b-ee5a06c17b6d	GET	http://localhost:3000	/history
+20230518	18:31:10	edf1653b-561a-4743-a51a-2f10bfb13ed9	GET	http://localhost:3000	/history
+20230518	18:31:10	4529317d-b4d5-401a-8895-bfcebb8ef84a	GET	http://localhost:3000	/history
+20230518	18:31:10	f9640edc-dbdd-4212-bc67-0ff8dbd6df30	GET	http://localhost:3000	/history
+20230518	18:41:56	20da4ffe-931b-4e0f-8af4-90357e2b9936	GET	http://localhost:3000	/history
+20230518	18:41:56	fd53ddef-1f51-4238-8eb7-8a08844f286d	GET	http://localhost:3000	/history
+20230518	18:41:56	cb9f880e-0cb1-474d-9a19-3d72a62d3fef	GET	http://localhost:3000	/history
+20230518	18:42:26	a67a8521-9988-4d96-8758-74fca522f54e	GET	undefined	/api/allingredients
+20230518	18:42:58	6ee40e33-6e5e-4765-8216-abf7fa4786b1	GET	undefined	/api/getallingredients
+>>>>>>> 469745426c10c7f80de8c43e5f9905c41fa4af1c
