@@ -43,6 +43,7 @@ app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
 // app.use('/authcheck', require('./routes/authcheck'));
 app.use('/login', require('./routes/login'));
+app.use('/mypage', require('./routes/mypage'));
 // app.use('/logout', require('./routes/logout'));
 app.use("/home",require("./routes/popup"));
 

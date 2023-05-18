@@ -15,7 +15,6 @@ section {
 .condition {
     margin:5px;
     padding:20px;
-  border: 1px solid #000;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -36,12 +35,12 @@ section {
     width: 35%;
 }
 .general {
-  background: rgb(255, 156, 156);
+  background: rgb(246, 226, 226);
   width: 60%;
 }
 
 .condition {
-  background: rgb(129, 129, 255);
+  background: rgb(225, 225, 248);
   /* flex */
   flex-grow: 1;
 }

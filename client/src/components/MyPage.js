@@ -1,48 +1,60 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import './MyPage.css'
-// import { ReactSession }  from 'react-client-session';
+import axios from "../api/axios";
+
+const MYPAGE_URL = "/mypage";
 
 function MyPage() {
-  const [formData, setFormData] = useState({
-    // username: ReactSession.get("user"),
-    username: sessionStorage.getItem("name"),
-    age: '',
-    sex:'',
-    height: '',
-    weight: '',
+  const username = sessionStorage.getItem("name");
+  const sessionAge = sessionStorage.getItem("age");
+  const [age, setAge] = useState({
+    value: sessionAge,
+    setValue: (newValue) => {setAge({...age, value: newValue})
+    }
   });
+  //const [age, setAge] = useState("")
+  const [sex, setSex] = useState("");
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
+
+  // const [errMsg, setErrMsg] = useState("");
 
   // useEffect(() => {
+  //   const fetchData = async () => {
+  //   };
+  //   fetchData();
+  // }, []);
   //   fetch('')
   //     .then(res => res.json())
   //     .then(data => {
-  //       setFormData({
-  //         username: data.username,
-  //         name: data.name,
-  //         age: data.age,
-  //         sex: data.sex,
-  //         height: data.height,
-  //         weight: data.weight
+  //         setAge(data.age),
+  //         setSex(data.sex),
+  //         setHeight(data.height),
+  //         setWeight(data.weight), 
   //       });
   //     })
   //     .catch(error => console.log(error));
-  // }, []);
 
-  const handleChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch('', {  
-      method: 'PUT',
-      body: JSON.stringify(formData),
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(error => console.log(error));
-  };
+    try {
+        await axios.post(
+            MYPAGE_URL,
+            JSON.stringify({age,sex,height,weight}),
+            {
+                headers: { "Content-Type": "application/json" }
+            }
+        );
+    } catch (err) {
+        // if (!err?.response) {
+        //     setErrMsg("No Server Response");
+        // } else if (err.response?.status === 400) {
+        //     setErrMsg("You are not logged in to MEARIE");
+        // } else {
+        //     setErrMsg("Update failed");
+        // }
+    }
+};
 
   return (
     <section>
@@ -62,8 +74,7 @@ function MyPage() {
                   type="text"
                   id="name"
                   name="name"
-                  value={formData.username}
-                  onChange={handleChange}
+                  value={username}
                   readOnly
                 />
                 <label htmlFor="email">Age</label>
@@ -71,11 +82,12 @@ function MyPage() {
                   type="integer"
                   id="age"
                   name="age"
-                  value={formData.age}
-                  onChange={handleChange}
+                  value={age}
+                  onChange={(e)=>setAge(e.target.value)}
+
                 />
                 <label htmlFor="sex">Sex</label>
-                <select name="sex" id="sex">
+                <select name="sex" id="sex" value={sex} onChange={(e)=>setSex(e.target.value)}>
                   <option value="choose">Choose</option>
                   <option value="female">Female</option>
                   <option value="male">Male</option>
@@ -87,16 +99,18 @@ function MyPage() {
               type="float"
               id="height"
               name="height"
-              value={formData.height}
-              onChange={handleChange}
+              value={height}
+              onChange={(e)=>setHeight(e.target.value)}
+
             />
             <label htmlFor="weight">Weight</label>
             <input
               type="float"
               id="weight"
               name="weight"
-              value={formData.weight}
-              onChange={handleChange}
+              value={weight}
+              onChange={(e)=>setWeight(e.target.value)}
+
             />
           </div>
           <div class="condition">
@@ -122,12 +136,17 @@ function MyPage() {
           </div>
         </div>
         <div class="buttons" >
-          <button type="submit">Edit</button>
+
           <button type="submit">Save</button>
         </div>
       </form>
     </section>
   );
+
+
+
+
+
 }
 
 export default MyPage;
