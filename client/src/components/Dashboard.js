@@ -40,28 +40,46 @@ const Dashboard = () => {
     meal: '[{"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}]',
   };
   const today = new Date();
-  const d1day = new Date(today);
+  const todayAdjusted = new Date(today);
+  todayAdjusted.setDate(todayAdjusted.getDate() - 1);
+  todayAdjusted.setHours(17, 0, 0, 0);
+  /*const todayAdjusted = new Date(today);
+  todayAdjusted.setDate(today.getDate() - 1);
+  const d1day = new Date(todayAdjusted);*/
+  const d1day = new Date(todayAdjusted);
   d1day.setDate(d1day.getDate() - 1);
   const d2day = new Date(d1day);
   d2day.setDate(d1day.getDate() - 1);
   const d3day = new Date(d2day);
   d3day.setDate(d2day.getDate() - 1);
-  const todayFormatted = today.toISOString().slice(0, 10);
-  const d1dayFormatted = d1day.toISOString().slice(0, 10);
-  const d2dayFormatted = d2day.toISOString().slice(0, 10);
-  const d3dayFormatted = d3day.toISOString().slice(0, 10);
+  const todayFormatted = todayAdjusted.toISOString().slice(0, 19);
+  const d1dayFormatted = d1day.toISOString().slice(0, 19);
+  const d2dayFormatted = d2day.toISOString().slice(0, 19);
+  const d3dayFormatted = d3day.toISOString().slice(0, 19);
 
   const todayItem = mealLog
-    .filter((item) => item.created_at.slice(0, 10) === todayFormatted)
+    .filter((item) => item.created_at.slice(0, 19) >= todayFormatted)
     .sort((a, b) => b.id - a.id)[0];
   const d1dayItem = mealLog
-    .filter((item) => item.created_at.slice(0, 10) === d1dayFormatted)
+    .filter(
+      (item) =>
+        item.created_at.slice(0, 19) >= d1dayFormatted &&
+        item.created_at.slice(0, 19) <= todayFormatted
+    )
     .sort((a, b) => b.id - a.id)[0];
   const d2dayItem = mealLog
-    .filter((item) => item.created_at.slice(0, 10) === d2dayFormatted)
+    .filter(
+      (item) =>
+        item.created_at.slice(0, 19) >= d2dayFormatted &&
+        item.created_at.slice(0, 19) <= d1dayFormatted
+    )
     .sort((a, b) => b.id - a.id)[0];
   const d3dayItem = mealLog
-    .filter((item) => item.created_at.slice(0, 10) === d3dayFormatted)
+    .filter(
+      (item) =>
+        item.created_at.slice(0, 19) >= d3dayFormatted &&
+        item.created_at.slice(0, 19) <= d2dayFormatted
+    )
     .sort((a, b) => b.id - a.id)[0];
 
   const d1dayItemMeal =

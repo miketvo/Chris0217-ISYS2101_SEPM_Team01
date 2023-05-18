@@ -5,6 +5,7 @@ import "./PopPage.css";
 import Progress from "./Progress";
 import Menu from "./Menu";
 import axios from "../api/axios";
+import { flushCache } from "./Memoization";
 
 const fetchData = async () => {
   const response = await axios.get("http://localhost:3500/history");
@@ -42,11 +43,16 @@ function Generation() {
     meal: '[{"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}, {"img": "", "name": "Not created"}]',
     info: "[0, 0, 0, 0, 0, 0, 0, 0]",
   };
-
+  /*const todayAdjusted = new Date(today);
+  todayAdjusted.setDate(today.getDate() - 1);
+  const todayFormatted = todayAdjusted.toISOString().slice(0, 10);*/
   const today = new Date();
-  const todayFormatted = today.toISOString().slice(0, 10);
+  const todayAdjusted = new Date(today);
+  todayAdjusted.setDate(todayAdjusted.getDate() - 1);
+  todayAdjusted.setHours(17, 0, 0, 0);
+  const todayFormatted = todayAdjusted.toISOString().slice(0, 19);
   const todayItem = mealLog
-    .filter((item) => item.created_at.slice(0, 10) === todayFormatted)
+    .filter((item) => item.created_at.slice(0, 19) >= todayFormatted)
     .sort((a, b) => b.id - a.id)[0];
   console.log(todayItem);
   const todayItemMeal = todayItem && todayItem.meal ? todayItem : notCreated;
@@ -82,6 +88,7 @@ function Generation() {
 
   function closePopup() {
     setIsOpen(false);
+    flushCache();
     document.body.classList.remove("popup-open");
   }
 
