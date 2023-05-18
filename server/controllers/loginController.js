@@ -32,13 +32,29 @@ const handleLogin = async (req, res) => {
                 } else if (validPassword) {
                     // 비밀번호가 일치하는 경우
                     console.log("비밀번호 일치:", validPassword); // (= true)
+
                     req.session.is_logined = true; // 로그인 상태도 true로 변경
                     req.session.username = input_name; // 세션 데이터베이스 내 유저 이름이라는 value의 해당 유저의 name을 넣음
-                    console.log("세션:", req.session); // 라인 11이랑 비포 애프터 확인 용도
+
+                    // const sql3 = "SELECT age FROM users WHERE BINARY(name) = '" + input_name + "';"; // age 값 조회
+                    // db.query(sql3, async function (err, rows) {
+                    //     const queryAgeResult = rows[0];
+                    //     const age = queryAgeResult.age;
+
+                    //     if (age == 0) {
+                    //         req.session.firstLogin = true;
+                    //     } else {
+                    //         req.session.firstLogin = false;
+                    //     }
+                    // });
+                    
+                    console.log("세션:", req.session);
+
                     req.session.save(function () {
                         // 해당 세션 저장
-                        res.redirect(`/`); // 재연결
+                        res.redirect("/"); // 재연결
                     });
+
                 } else {
                     // 비밀번호가 일치하지 않는 경우
                     console.log("비밀번호 일치:", validPassword); // (= false)
@@ -53,5 +69,6 @@ const handleLogin = async (req, res) => {
         }
     });
 };
+
 
 module.exports = { handleLogin };
