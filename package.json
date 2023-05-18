@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "rc-progress": "^3.4.1",
-    "react-grid-layout": "^1.3.4"
-  }
-}
