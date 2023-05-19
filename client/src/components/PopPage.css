@@ -77,7 +77,6 @@ input[type="checkbox"] {
 
   .progress-container{
     display: flex;
-    width: 100%;
     justify-content: space-between;
   }
 

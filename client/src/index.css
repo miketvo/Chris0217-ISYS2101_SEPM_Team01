@@ -120,35 +120,3 @@ button:hover:enabled {
 .line {
     display: inline-block;
 }
- 
-
-/* for temporary api table style */
-
-table {
-    table-layout: fixed;
-    width: 100%;
-    border-collapse: collapse;
-    border: 2px solid black;
-  }
-  
-  thead th:nth-child(1) {
-    width: 20%;
-  }
-  
-  thead th:nth-child(2) {
-    width: 20%;
-  }
-  
-  thead th:nth-child(3) {
-    width: 25%;
-  }
-  
-  thead th:nth-child(4) {
-    width: 35%;
-  }
-  
-  th, td {
-    padding: 1px;
-    border: 1px solid black;
-    color:black;
-  }

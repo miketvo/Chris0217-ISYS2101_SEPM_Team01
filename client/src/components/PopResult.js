@@ -6,6 +6,9 @@ import axios from "../api/axios";
 //여기는 meal generation result 출력하는 div
 function PopResult() {
   //이거는 그냥 홈페이지 다시 로드하면서 팝업 꺼지게
+  const handleConfirmClick = () => {
+    window.location.href = "http://localhost:3000/home";
+  };
   const [countRe, setCountRe] = useState(0);
   function handleReRecommend() {
     setCountRe(countRe + 1);
@@ -49,6 +52,45 @@ function PopResult() {
 
   //json challenge
   const POPUP_URL = "/home";
+
+  const saveUserMealPlan = async (event) => {
+    const userInput = {
+      breakfast_input: breakfast_test,
+      lunch_input: lunch_test,
+      dinner_input: dinner_test,
+      snack_input: snack_test,
+    };
+    try {
+      const responseInput = await axios.post(
+        POPUP_URL,
+        JSON.stringify({
+          breakfast_test,
+          lunch_test,
+          dinner_test,
+          snack_test,
+        }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+    } catch (err) {
+      /*if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else {
+        setErrMsg("Failed");
+      }
+      errRef.current.focus();*/
+      console.error(err);
+    }
+  };
+
+  function handleConfirmMaster() {
+    //saveUserMealPlan();
+    window.subSituation = 200;
+    console.log(window.subSituation);
+    handleConfirmClick();
+  }
 
   return (
     <>
