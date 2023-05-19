@@ -43,3 +43,6 @@
 20230518	17:18:54	b84a397c-93a6-4f87-b91d-c81e6c658230	SyntaxError: Unexpected token " in JSON at position 0
 20230518	17:24:53	229350de-4b44-4cc5-b22a-6c626c85c3ef	SyntaxError: Unexpected token " in JSON at position 0
 20230518	17:24:53	e8a0a35f-9574-438a-8c73-8963453f71eb	SyntaxError: Unexpected token " in JSON at position 0
+20230520	00:12:59	4184c840-e14a-4d1b-8638-ea0149f526ca	Error: No default engine was specified and no extension was provided.
+20230520	01:32:27	dc67b352-f418-4467-995f-c6371669a045	TypeError: Assignment to constant variable.
+20230520	01:54:34	be772953-ec48-4713-8bc5-d89d2a4161db	TypeError: Assignment to constant variable.

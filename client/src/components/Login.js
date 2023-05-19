@@ -12,7 +12,6 @@ function Login() {
     const [pwd, setPwd] = useState("");
 
     const [errMsg, setErrMsg] = useState("");
-
     const [success, setSuccess] = useState(false);
 
 
@@ -47,10 +46,6 @@ function Login() {
                 setErrMsg("Login Failed");
             }
             errRef.current.focus();
-        // } finally {
-        //     if(sessionStorage.getItem()) {
-
-        //     }
         }
     };
 
