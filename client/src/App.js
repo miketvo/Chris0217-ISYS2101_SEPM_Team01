@@ -4,9 +4,9 @@ import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import MyPage from "./components/MyPage";
-import Home from "./components/Home";
-import FetchApi from "./fetchAPI/FetchApi";
+import FetchApi from "./components/FetchApi";
 import Selection from "./components/Selection";
+import Home from "./components/Home";
 
 function App() {
   return (

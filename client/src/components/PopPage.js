@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import "./PopPage.css";
 import "./Dashboard.css";
 import axios from "axios";
 import Selection from "./Selection";
-import { flushCache } from "./Memoization";
 const POPUP_URL = "/home";
 function PopPage() {
   //우선 마지막 3-4개가 Meal Type, 나머지는 Meal Style
@@ -55,7 +54,7 @@ function PopPage() {
     setSelectedValues(selectedValues);
     setShowDiv(true);
   };
-  const [countRe, setCountRe] = useState(0);
+
   //체크박스 체크되었는지 확인하는 function
   function handleCheckboxChange(event) {
     const { id } = event.target;
@@ -69,14 +68,9 @@ function PopPage() {
       return newState;
     });
   }
-
-  const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const [countRe, setCountRe] = useState(0);
   function handleReRecommend(event) {
-    if (isButtonDisabled) {
-      return; // Exit early if the button is disabled
-    }
-    flushCache();
-    setCountRe(countRe + 1);
+    //setCountRe(countRe + 1);
     const { id } = event.target;
     setCheckedState((prevState) => {
       const newState = prevState.map((item) => {
@@ -87,19 +81,12 @@ function PopPage() {
       });
       return newState;
     });
-    setButtonDisabled(true); // Disable the button
   }
+  //json challenge
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setButtonDisabled(false); // Enable the button after 3 seconds
-    }, 3000);
-
-    return () => clearTimeout(timer); // Clear the timer on component unmount or re-render
-  }, [isButtonDisabled]);
+  //이거는 그냥 홈페이지 다시 로드하면서 팝업 꺼지게
 
   const handleConfirmClick = async (event) => {
-    flushCache();
     const mealUserArray = window.mealArray;
     const mealPlanInfo = window.mealPlanInfo;
     console.log(mealUserArray);
@@ -179,12 +166,7 @@ function PopPage() {
                   style={selectedStyleValues}
                 ></Selection>
                 <div className="popup-buttons">
-                  <button
-                    className={isButtonDisabled ? "disabled" : ""}
-                    onClick={handleReRecommend}
-                  >
-                    Re-recommend
-                  </button>
+                  <button onClick={handleReRecommend}>Re-recommend</button>
                   <button onClick={handleConfirmClick}>Confirm</button>
                 </div>
               </>
