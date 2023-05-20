@@ -90,7 +90,7 @@ function MyPage() {
 
 
   return (
-    <section>
+    <section class="mypage_section">
       <form onSubmit={handleSubmit}>
         <div class="forms">
           <div class="general">

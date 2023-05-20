@@ -232,6 +232,7 @@ function Register() {
                             <FontAwesomeIcon icon={faInfoCircle} />
                             Must match the first password input field.
                         </p>
+                        <br></br>
 
                         <button
                             disabled={

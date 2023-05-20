@@ -2395,3 +2395,16 @@
 20230520	22:14:07	daf0bcda-75eb-46d7-af01-9a476cefb24e	GET	http://localhost:3000	/mypage
 20230520	22:18:08	1769c935-39e7-47fb-a92c-43a21dd4a8e6	GET	http://localhost:3000	/mypage
 20230520	22:18:08	bba3f798-85e7-4879-baff-197387db9854	GET	http://localhost:3000	/login
+20230520	22:21:01	dc433833-6884-41ae-b53a-6eb15923179d	GET	http://localhost:3000	/mypage
+20230520	22:21:01	ea7700cd-f0e2-40fc-916a-a9ca12e5253b	GET	http://localhost:3000	/login
+20230520	22:21:24	78b286b0-931b-4ab4-880c-ec7ed48d82a4	GET	http://localhost:3000	/mypage
+20230520	22:21:24	af995f8f-0a9f-4561-92ff-3631de03b5d8	GET	http://localhost:3000	/login
+20230520	22:26:19	56628107-3711-4b1a-bd08-ebe22d3f0681	OPTIONS	http://localhost:3000	/login
+20230520	22:26:19	1fc54e33-0795-4abf-bd98-ee9f9ad38c44	POST	http://localhost:3000	/login
+20230520	22:26:22	05cd1507-e34d-449e-a268-3e86e309259f	POST	http://localhost:3000	/login
+20230520	22:26:23	aecb0842-505d-4928-ac71-359eee1b987d	OPTIONS	http://localhost:3000	/
+20230520	22:26:23	1341b957-d044-436e-bc85-afdf455f9300	GET	http://localhost:3000	/
+20230520	22:26:24	525bfc0f-3cbe-4869-9300-8e86a57ba177	GET	http://localhost:3000	/mypage
+20230520	22:27:18	bbcb6115-8ea7-49aa-a0f7-3c51b5b8cd7c	GET	http://localhost:3000	/mypage
+20230520	22:27:22	56b8dfde-7aea-46b6-a83a-fcb6eecd8189	GET	http://localhost:3000	/mypage
+20230520	22:30:53	6bdf405c-b395-4d69-bf8e-feb13aebaf4b	GET	http://localhost:3000	/mypage
