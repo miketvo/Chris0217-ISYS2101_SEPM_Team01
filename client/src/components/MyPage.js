@@ -17,6 +17,9 @@ function MyPage() {
 
     const [editMode, setEditMode] = useState(false);
 
+    const [selectedIngredients, setSelectedIngredients] = useState();
+    const [selectedAllergens, setSelectedAllergens] = useState();
+
     const [allIngredients, setAllIngredients] = useState(null);
     useEffect(() => {
       axios.get("http://localhost:3500/api/allIngredients")
@@ -24,22 +27,6 @@ function MyPage() {
         setAllIngredients(response.data.map(ing => ({value:ing, label:ing})))
       })
     }, [])
-
-    const [selectedIngredients, setSelectedIngredients] = useState();
-    function handleIngredientsSelect(data) {
-      setSelectedIngredients(data);
-      const newIngredients = data.map(o => o.value);
-      setUnpIngredients(newIngredients);
-      console.log("진짜 쫌 나오라고오어어ㅓ아ㅏ어ㅏ어ㅏㅓ ㅠㅠㅠㅠ",unpIngredients);
-    }
-    
-    const allAllergens = [{ value: 'Alcohol-Free', label: "Alcohol" }, { value: 'Celery-Free', label: "Celery" }, { value: 'Crustcean-Free', label: "Crustcean" },{ value: 'Dairy-Free', label: "Dairy" }, { value: 'Egg-Free', label: "Egg" }, { value: 'Fish-Free', label: "Fish" }, { value: 'FODMAP-Free', label: "FODMAP" }, { value: 'Gluten-Free', label: "Gluten" }, { value: 'Lupine-Free', label: "Lupine" }, { value: 'Mollusk-Free', label: "Mollusk" }, { value: 'Mustard-Free', label: "Mustard" }, { value: 'Peanut-Free', label: "Peanut" }, { value: 'Pork-Free', label: "Pork" }, { value: 'Red-Meat-Free', label: "Red-Meat" }, { value: 'Sesame-Free', label: "Sesame" }, { value: 'Shellfish-Free', label: "Shellfish" }, { value: 'Soy-Free', label: "Soy" }, { value: 'Sulfite-Free', label: "Sulfite" }, { value: 'Tree-Nut-Free', label: "Tree-Nut" }, { value: 'Wheat-Free', label: "Wheat" }];
-    const [selectedAllergens, setSelectedAllergens] = useState();
-    function handleAllergensSelect(data) {
-      setSelectedAllergens(data);
-      const newAllergens = data.map(o => o.value);
-      setAllergen(newAllergens);
-    }
 
     useEffect(() => {
       const fetchUserInfo = async () => {
@@ -67,7 +54,9 @@ function MyPage() {
                 setHeight(userData[0].height);
                 setWeight(userData[0].weight);
                 setAllergen(JSON.parse(userData[0].allergen));
-                setUnpIngredients(JSON.parse(userData[0].unpreferred_ingredients))
+                setUnpIngredients(JSON.parse(userData[0].unpreferred_ingredients));
+                setSelectedAllergens((allergen.map(allergy => ({value:allergy, label:allergy}))));
+                setSelectedIngredients((unpIngredients.map(ing => ({value:ing, label:ing}))));
             }
 
         } catch (error) {
@@ -78,6 +67,23 @@ function MyPage() {
       fetchUserInfo();
     }, []);
 
+
+    function handleIngredientsSelect(data) {
+      setSelectedIngredients(data);
+      const newIngredients = data.map(o => o.value);
+      setUnpIngredients(newIngredients);
+    }
+    
+    const allAllergens = [{ value: 'Alcohol-Free', label: "Alcohol" }, { value: 'Celery-Free', label: "Celery" }, { value: 'Crustcean-Free', label: "Crustcean" },{ value: 'Dairy-Free', label: "Dairy" }, { value: 'Egg-Free', label: "Egg" }, { value: 'Fish-Free', label: "Fish" }, { value: 'FODMAP-Free', label: "FODMAP" }, { value: 'Gluten-Free', label: "Gluten" }, { value: 'Lupine-Free', label: "Lupine" }, { value: 'Mollusk-Free', label: "Mollusk" }, { value: 'Mustard-Free', label: "Mustard" }, { value: 'Peanut-Free', label: "Peanut" }, { value: 'Pork-Free', label: "Pork" }, { value: 'Red-Meat-Free', label: "Red-Meat" }, { value: 'Sesame-Free', label: "Sesame" }, { value: 'Shellfish-Free', label: "Shellfish" }, { value: 'Soy-Free', label: "Soy" }, { value: 'Sulfite-Free', label: "Sulfite" }, { value: 'Tree-Nut-Free', label: "Tree-Nut" }, { value: 'Wheat-Free', label: "Wheat" }];
+    
+    function handleAllergensSelect(data) {
+      setSelectedAllergens(data);
+      const newAllergens = data.map(o => o.value);
+      setAllergen(newAllergens);
+    }
+
+
+
     const handleMode = async (e) => {
       e.preventDefault();
       if (editMode) {
@@ -87,8 +93,9 @@ function MyPage() {
         setHeight(userData[0].height);
         setWeight(userData[0].weight);
         setAllergen(JSON.parse(userData[0].allergen));
-        setUnpIngredients(JSON.parse(userData[0].unpreferred_ingredients))
-        
+        setUnpIngredients(JSON.parse(userData[0].unpreferred_ingredients));
+        setSelectedAllergens((allergen.map(allergy => ({value:allergy, label:allergy}))));
+        setSelectedIngredients((unpIngredients.map(ingredient => ({value:ingredient, label:ingredient}))));
       } else {
         setEditMode(true)
       }
