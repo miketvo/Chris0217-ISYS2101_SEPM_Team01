@@ -33,3 +33,16 @@
 20230426	23:18:52	06ae2fda-6491-4902-9a32-8522328664e5	Error: Table 'mearie_user.sessions' doesn't exist
 20230426	23:18:52	1be4e01b-f8e1-49b7-bfc2-67574be44eef	Error: Table 'mearie_user.sessions' doesn't exist
 20230426	23:18:53	c5187a85-9465-4712-99cc-56da41009f7c	Error: Table 'mearie_user.sessions' doesn't exist
+20230518	17:15:16	1adce0a1-6185-4e73-91fb-e6aabb51df73	SyntaxError: Unexpected token " in JSON at position 0
+20230518	17:15:16	ff99f3d7-c1d7-4522-b20b-ad6bb3762209	SyntaxError: Unexpected token " in JSON at position 0
+20230518	17:16:55	ace1d4c5-d56d-4c7e-96b0-118f7ceadc76	SyntaxError: Unexpected token " in JSON at position 0
+20230518	17:16:55	aade4dc0-2f03-47ad-9ca6-fdd72b776a6c	SyntaxError: Unexpected token " in JSON at position 0
+20230518	17:17:03	e3eb59ed-bc70-4d35-a00c-d17e3142993c	SyntaxError: Unexpected token " in JSON at position 0
+20230518	17:17:03	c79f8ad7-5cd0-428c-aff7-edfc7e33a890	SyntaxError: Unexpected token " in JSON at position 0
+20230518	17:18:54	71bad844-a514-4312-be26-a4c8a6b88acf	SyntaxError: Unexpected token " in JSON at position 0
+20230518	17:18:54	b84a397c-93a6-4f87-b91d-c81e6c658230	SyntaxError: Unexpected token " in JSON at position 0
+20230518	17:24:53	229350de-4b44-4cc5-b22a-6c626c85c3ef	SyntaxError: Unexpected token " in JSON at position 0
+20230518	17:24:53	e8a0a35f-9574-438a-8c73-8963453f71eb	SyntaxError: Unexpected token " in JSON at position 0
+20230520	00:12:59	4184c840-e14a-4d1b-8638-ea0149f526ca	Error: No default engine was specified and no extension was provided.
+20230520	01:32:27	dc67b352-f418-4467-995f-c6371669a045	TypeError: Assignment to constant variable.
+20230520	01:54:34	be772953-ec48-4713-8bc5-d89d2a4161db	TypeError: Assignment to constant variable.

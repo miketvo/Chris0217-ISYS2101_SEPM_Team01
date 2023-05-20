@@ -1,5 +1,6 @@
 const db = require("../module/db"); // 데이터베이스
 const bcrypt = require("bcrypt"); // 암호화
+const sessionUtil = require('./sessionUtil');
 
 const handleLogin = async (req, res) => {
     const input_name = req.body.user;
@@ -8,7 +9,7 @@ const handleLogin = async (req, res) => {
     // 아래 코드는 백엔드로 input 데이터가 잘 전달되었는지 확인하기 위한 코드입니다~ 테스트해 보고 싶으시면 해제해서 사용해 보셔도 돼요 (세션 같은 건 비포 애프터가 잘 보입니다)
     console.log("input name: [", input_name, "]");
     console.log("input pw: [", input_pw, "]");
-    // console.log("세션:", req.session);  // 라인 26이랑 비포 애프터 확인 용도
+    console.log("세션:", req.session);  // 라인 26이랑 비포 애프터 확인 용도
 
     // 대부분의 콘솔 로그는 제가 테스트해 보며 확인한 용도라서 주석으로 처리하고 진행하셔도 무방합니다
     const sql1 =
@@ -35,29 +36,20 @@ const handleLogin = async (req, res) => {
 
                     req.session.is_logined = true; // 로그인 상태도 true로 변경
                     req.session.username = input_name; // 세션 데이터베이스 내 유저 이름이라는 value의 해당 유저의 name을 넣음
-                    
-                    const sqlUserInfo = "SELECT * FROM users WHERE name = '"+input_name+"';"
-                    db.query(sqlUserInfo,async function(error, rows) {
-                        const age = rows[0].age;
-                        const height = rows[0].height;
-                        const weight = rows[0].weight;
+
+                    req.session.save(function (err) {
+                        if (err) {
+                            console.log("세션 저장 오류:", err);
+                            return;
+                        }
                         
-                        req.session.age = age;
-                        req.session.height = height;
-                        req.session.weight = weight;
-
-                        req.session.save();
-                        console.log("새로운 세션:", req.session);
-
-                        res.session;
-                    })
-                    
-
-                    console.log("세션:", req.session);
-
-                    req.session.save(function () {
-                        // 해당 세션 저장
+                        console.log("세션 저장 완료");
+                        console.log("세션:", req.session);
                         res.redirect("/"); // 재연결
+                    
+                        const loginUserName = sessionUtil.getUsernameFromSession(req);
+                        console.log('현재 로그인한 사용자:', loginUserName);
+                        
                     });
 
                 } else {

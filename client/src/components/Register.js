@@ -57,28 +57,6 @@ function Register() {
                     headers: { "Content-Type": "application/json" }
                 }
             );
-    
-            /*
-            const response = await axios.post(
-                REGISTER_URL, null, {
-                    params: {
-                    'name': user,
-                    'pw': pwd
-                    }
-                })
-                .then(res => console.log(res))
-                .catch()
-
-
-            const response = await axios.post(
-                REGISTER_URL,
-                JSON.stringify({ user, pwd }),
-                {
-                    headers: { "Content-Type": "application/json" },
-                    withCredentials: true,
-                }
-            );
-            */
             setSuccess(true);
             setUser("");
             setPwd("");

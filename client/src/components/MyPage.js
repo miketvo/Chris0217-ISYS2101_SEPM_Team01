@@ -1,60 +1,69 @@
-import React, {useState, useEffect} from 'react';
-import './MyPage.css'
-import axios from "../api/axios";
+import React, { useState, useEffect } from 'react';
+import './MyPage.css';
+import axios from '../api/axios';
 
-const MYPAGE_URL = "/mypage";
+const MYPAGE_URL = '/mypage';
 
 function MyPage() {
-  const username = sessionStorage.getItem("name");
-  const sessionAge = sessionStorage.getItem("age");
-  const [age, setAge] = useState({
-    value: sessionAge,
-    setValue: (newValue) => {setAge({...age, value: newValue})
-    }
-  });
-  //const [age, setAge] = useState("")
-  const [sex, setSex] = useState("");
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
+    const [username, setUsername] = useState('');
+    const [userData, setUserData] = useState(null);
+    const [age, setAge] = useState('');
+    const [sex, setSex] = useState('');
+    const [height, setHeight] = useState('');
+    const [weight, setWeight] = useState('');
+  
+    useEffect(() => {
+      const fetchUserInfo = async () => {
+        try {
+            const response = await axios.get(MYPAGE_URL);
+            const { username, userData } = response.data;
 
-  // const [errMsg, setErrMsg] = useState("");
+            setUsername(username);
+            setUserData(userData);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //   };
-  //   fetchData();
-  // }, []);
-  //   fetch('')
-  //     .then(res => res.json())
-  //     .then(data => {
-  //         setAge(data.age),
-  //         setSex(data.sex),
-  //         setHeight(data.height),
-  //         setWeight(data.weight), 
-  //       });
-  //     })
-  //     .catch(error => console.log(error));
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        await axios.post(
-            MYPAGE_URL,
-            JSON.stringify({age,sex,height,weight}),
-            {
-                headers: { "Content-Type": "application/json" }
+            if(userData) {
+                setAge(userData[0].age);
+                setSex(userData[0].sex);
+                setHeight(userData[0].height);
+                setWeight(userData[0].weight);
+      
+                console.log('--------------------------');
+                console.log('username:', username);
+                console.log('User Data:', userData);
+                console.log("age:", userData[0].age);
+                console.log("sex:", userData[0].sex);
+                console.log("height:", userData[0].height);
+                console.log("weight:", userData[0].weight);
+                console.log('--------------------------');
             }
-        );
-    } catch (err) {
-        // if (!err?.response) {
-        //     setErrMsg("No Server Response");
-        // } else if (err.response?.status === 400) {
-        //     setErrMsg("You are not logged in to MEARIE");
-        // } else {
-        //     setErrMsg("Update failed");
-        // }
-    }
-};
+
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+        }
+      };
+  
+      fetchUserInfo();
+    }, []);
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            await axios.post(
+                MYPAGE_URL,
+                JSON.stringify({ age, sex, height, weight }),
+                {
+                headers: { 'Content-Type': 'application/json' },
+                }
+            );
+            // 업데이트 성공 시 필요한 작업 수행
+        
+        } catch (err) {
+            // 업데이트 실패 시 필요한 작업 수행
+        }
+    };
+
 
   return (
     <section>
@@ -142,11 +151,6 @@ function MyPage() {
       </form>
     </section>
   );
-
-
-
-
-
 }
 
 export default MyPage;

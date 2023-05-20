@@ -5,9 +5,6 @@
 
 import axios from "axios";
 export default axios.create({
-  baseURL: "http://localhost:3500",
+    baseURL: "http://localhost:3500",
+    // baseURL: "http://54.151.158.45:3500",
 });
-
-/*제가 node는 코드 돌아다니는거 고대로 가져와서 따로 하긴 했는데,
-리액트랑 별개로 따로 설정해주고 돌리는 back-end 부분은 사실 잘 이해가 안가효.
-설명 가능 할 분 있으신가효? 누가 이 바보 좀 구제해죠....ㅠㅠ */
