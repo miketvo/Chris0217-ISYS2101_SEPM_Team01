@@ -3,18 +3,34 @@ section {
     max-width: 90%;
     min-height: 60%;
     align-self: center;
-    background-color: rgba(9, 46, 105, 0.3);
+    background-color: rgb(255, 251, 224);
 }
-
+input {
+    height:43px;
+}
 .forms {
     display: flex;
     flex-direction: row;
-    padding-bottom: 1rem;
+}
+.hw {
+    width: 60%;
+    margin: 10px 0px 0px 23px;
+    align-self:center;
+}
+.divBmi {
+    margin-left:15px;
+    width:34.5%;
+    align-self:center;
+    display: flex;
+}
+label {
+    margin-left: 3px;
+    margin-right: 10px;
 }
 .general,
 .condition {
     margin:5px;
-    padding:20px;
+    padding:15px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -29,18 +45,30 @@ section {
     flex-direction: column;
     flex-grow: 1;
 }
+
+.divBmiImg {
+    width: 97%;
+    align-self: center;
+    padding-top: 40px;
+}
+.bmi {
+    margin-left:10px;
+    width: 100%;
+    border-radius: 13px;
+}
 .userPic {
-    margin-top: 15px;
-    margin-right: 30px;
+    margin: 10px;
+    padding: 10px;
     width: 35%;
 }
 .general {
-  background: rgb(246, 226, 226);
-  width: 60%;
+  background: rgb(190, 211, 241);
+  width: 50vw;
+  height: auto;
 }
 
 .condition {
-  background: rgb(225, 225, 248);
+  background: rgb(190, 211, 241);
   /* flex */
   flex-grow: 1;
 }
