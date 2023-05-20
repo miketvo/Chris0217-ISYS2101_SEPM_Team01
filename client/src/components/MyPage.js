@@ -57,13 +57,14 @@ function MyPage() {
     const handleMode = async (e) => {
       e.preventDefault();
       if (editMode) {
+        setEditMode(false);
         setAge(userData[0].age);
         setSex(userData[0].sex);
         setHeight(userData[0].height);
         setWeight(userData[0].weight);
         setAllergen(userData[0].allergen);
         setUnpIngredients(userData[0].unpreferred_ingredients)
-        setEditMode(false);
+        
       } else {
         setEditMode(true)
       }
