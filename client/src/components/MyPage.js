@@ -67,7 +67,6 @@ function MyPage() {
                 setHeight(userData[0].height);
                 setWeight(userData[0].weight);
                 setAllergen(JSON.parse(userData[0].allergen));
-                //setAllergen(userData[0].allergen==null ? [] : userData[0].allergen);
                 setUnpIngredients(JSON.parse(userData[0].unpreferred_ingredients))
             }
 
@@ -87,8 +86,8 @@ function MyPage() {
         setSex(userData[0].sex);
         setHeight(userData[0].height);
         setWeight(userData[0].weight);
-        setAllergen(userData[0].allergen);
-        setUnpIngredients(userData[0].unpreferred_ingredients)
+        setAllergen(JSON.parse(userData[0].allergen));
+        setUnpIngredients(JSON.parse(userData[0].unpreferred_ingredients))
         
       } else {
         setEditMode(true)
@@ -222,7 +221,12 @@ function MyPage() {
           <div class="condition">
             <h2>Condition</h2>
             <label for="allergen">Allergens</label>
-            {allergen.map(allergy => <input class="loopInput" type="text" id="name" name="name" value={allergy} readOnly/>)}
+            {unpIngredients.length==0 
+              ? 
+              <input class="loopInput" type="text" id="name" name="name" value="" readOnly/> 
+              :
+              allergen.map(allergy => <input class="loopInput" type="text" id="name" name="name" value={allergy} readOnly/>)
+            }
             {editMode 
               ? 
               <div class="dropdown-container">
@@ -239,7 +243,12 @@ function MyPage() {
               false
             }
             <label for="unpreferred">Unpreferred Ingredients</label>
-            {unpIngredients.map(ingredient => <input class="loopInput" type="text" id="name" name="name" value={ingredient} readOnly/>)}
+            {unpIngredients.length==0 
+              ? 
+              <input class="loopInput" type="text" id="name" name="name" value="" readOnly/> 
+              :
+              unpIngredients.map(ingredient => <input class="loopInput" type="text" id="name" name="name" value={ingredient} readOnly/>)
+            }
             {editMode 
               ? 
               <div class="dropdown-container">
