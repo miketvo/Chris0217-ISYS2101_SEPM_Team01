@@ -46,6 +46,8 @@ app.use('/login', require('./routes/login'));
 app.use('/mypage', require('./routes/mypage'));
 // app.use('/logout', require('./routes/logout'));
 app.use("/home",require("./routes/popup"));
+app.use("/api", require("./routes/api"));
+app.use("/history", require("./routes/history"));
 
 app.all("*", (req, res) => {
   res.status(404);

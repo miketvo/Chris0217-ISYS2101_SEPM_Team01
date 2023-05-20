@@ -1,4 +1,3 @@
-20220417	14:19:23	6706af71-06b2-47c5-bc70-1a30c134ccec	Error: ENOENT: no such file or directory, stat '/home/isaac/Documents/node-reaact/views/index.html'
 20230426	17:20:53	ee2a9e3e-2604-422b-af03-81fb5171750b	Error: Access denied for user ''@'localhost' (using password: YES)
 20230426	17:35:52	4f190243-08b1-4159-84b0-a1ffdabbedae	Error: Access denied for user ''@'localhost' (using password: YES)
 20230426	17:37:41	7cc9e9ed-6b6e-4541-8949-d3b34025e30e	Error: Access denied for user ''@'localhost' (using password: YES)

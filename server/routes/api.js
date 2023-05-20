@@ -6,6 +6,6 @@ router.get("/", fetchController.getAllController);
 router.get("/label", fetchController.getLabelController);
 router.get("/calories", fetchController.getCaloriesController);
 router.get("/diet", fetchController.getDietLabelsController);
-//router.get("/allIngredients", fetchController.getAllIngredientsController)
+router.get("/allIngredients", fetchController.getAllIngredientsController)
 
 module.exports = router;
