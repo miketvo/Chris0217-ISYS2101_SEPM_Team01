@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
 import './MyPage.css';
 import axios from '../api/axios';
 
@@ -11,11 +12,34 @@ function MyPage() {
     const [sex, setSex] = useState('');
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
-    const [allergen, setAllergen] = useState('')
-    const [unpIngredients, setUnpIngredients] = useState('')
-  
+    const [allergen, setAllergen] = useState([])
+    const [unpIngredients, setUnpIngredients] = useState([])
+
     const [editMode, setEditMode] = useState(false);
 
+    const [allIngredients, setAllIngredients] = useState(null);
+    useEffect(() => {
+      axios.get("http://localhost:3500/api/allIngredients")
+      .then((response)=>{
+        setAllIngredients(response.data.map(ing => ({value:ing, label:ing})))
+      })
+    }, [])
+
+    const [selectedIngredients, setSelectedIngredients] = useState();
+    function handleIngredientsSelect(data) {
+      setSelectedIngredients(data);
+      const newIngredients = data.map(o => o.value);
+      setUnpIngredients(newIngredients);
+      console.log("진짜 쫌 나오라고오어어ㅓ아ㅏ어ㅏ어ㅏㅓ ㅠㅠㅠㅠ",unpIngredients);
+    }
+    
+    const allAllergens = [{ value: 'Alcohol-Free', label: "Alcohol" }, { value: 'Celery-Free', label: "Celery" }, { value: 'Crustcean-Free', label: "Crustcean" },{ value: 'Dairy-Free', label: "Dairy" }, { value: 'Egg-Free', label: "Egg" }, { value: 'Fish-Free', label: "Fish" }, { value: 'FODMAP-Free', label: "FODMAP" }, { value: 'Gluten-Free', label: "Gluten" }, { value: 'Lupine-Free', label: "Lupine" }, { value: 'Mollusk-Free', label: "Mollusk" }, { value: 'Mustard-Free', label: "Mustard" }, { value: 'Peanut-Free', label: "Peanut" }, { value: 'Pork-Free', label: "Pork" }, { value: 'Red-Meat-Free', label: "Red-Meat" }, { value: 'Sesame-Free', label: "Sesame" }, { value: 'Shellfish-Free', label: "Shellfish" }, { value: 'Soy-Free', label: "Soy" }, { value: 'Sulfite-Free', label: "Sulfite" }, { value: 'Tree-Nut-Free', label: "Tree-Nut" }, { value: 'Wheat-Free', label: "Wheat" }];
+    const [selectedAllergens, setSelectedAllergens] = useState();
+    function handleAllergensSelect(data) {
+      setSelectedAllergens(data);
+      const newAllergens = data.map(o => o.value);
+      setAllergen(newAllergens);
+    }
 
     useEffect(() => {
       const fetchUserInfo = async () => {
@@ -42,8 +66,9 @@ function MyPage() {
                 setSex(userData[0].sex);
                 setHeight(userData[0].height);
                 setWeight(userData[0].weight);
-                setAllergen(userData[0].allergen);
-                setUnpIngredients(userData[0].unpreferred_ingredients)
+                setAllergen(JSON.parse(userData[0].allergen));
+                //setAllergen(userData[0].allergen==null ? [] : userData[0].allergen);
+                setUnpIngredients(JSON.parse(userData[0].unpreferred_ingredients))
             }
 
         } catch (error) {
@@ -76,12 +101,14 @@ function MyPage() {
         try {
             await axios.post(
                 MYPAGE_URL,
-                JSON.stringify({ age, sex, height, weight }),
+                JSON.stringify({ age, sex, height, weight, allergen, unpIngredients }),
                 {
                 headers: { 'Content-Type': 'application/json' },
                 }
             );
             alert("Your information is updated!");
+            setSelectedAllergens();
+            setSelectedIngredients();
             setEditMode(false)
         } catch (err) {
             alert("Update failed to proceed.")
@@ -195,44 +222,36 @@ function MyPage() {
           <div class="condition">
             <h2>Condition</h2>
             <label for="allergen">Allergens</label>
-            <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={allergen}
-                  readOnly
-                />
+            {allergen.map(allergy => <input class="loopInput" type="text" id="name" name="name" value={allergy} readOnly/>)}
             {editMode 
               ? 
-              <select name="allergen" id="allergen" /*onChange={(e)=>setAllergens(e.target.value)*/>
-                <option selected hidden >Select to change</option>
-                <option value="apple">Apple-free</option>
-                <option value="cranberry">Cranberry-free</option>
-                <option value="peach">Peach-free</option>
-                <option value="peanut">Peanut-free</option>
-                <option value="raison">Raison-free</option>
-              </select>
+              <div class="dropdown-container">
+                <Select 
+                  placeholder="Select to change" 
+                  options={allAllergens}
+                  value={selectedAllergens}
+                  onChange={handleAllergensSelect}
+                  isSearchable 
+                  isMulti
+                />
+              </div>
               : 
               false
             }
             <label for="unpreferred">Unpreferred Ingredients</label>
-            <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={unpIngredients}
-                  readOnly
-                />
+            {unpIngredients.map(ingredient => <input class="loopInput" type="text" id="name" name="name" value={ingredient} readOnly/>)}
             {editMode 
               ? 
-              <select name="unpreferred" id="unpreferred" /*onChange={(e)=>setIngredients(e.target.value)*/>
-                <option selected hidden>Select to change</option>
-                <option value="apple">Apple-free</option>
-                <option value="cranberry">Cranberry-free</option>
-                <option value="peach">Peach-free</option>
-                <option value="peanut">Peanut-free</option>
-                <option value="raison">Raison-free</option>
-              </select>
+              <div class="dropdown-container">
+                <Select 
+                  placeholder="Select to change" 
+                  options={allIngredients}
+                  value={selectedIngredients}
+                  onChange={handleIngredientsSelect}
+                  isSearchable 
+                  isMulti
+                />
+              </div>
               : 
               false
             }

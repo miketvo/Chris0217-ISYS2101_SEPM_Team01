@@ -32,16 +32,16 @@ class Navbar extends Component {
                             }
                         >
                             <li>
-                                <a><Link to="/">Archive</Link></a>
+                                <a><Link to="/archive">Archive</Link></a>
                             </li>
                             <li>
-                                <a><Link to="/">Community</Link></a>
+                                <a><Link to="/community">Community</Link></a>
                             </li>
                             <li>
                                 <a><Link to="/mypage">My Page</Link></a>
                             </li>
                             <li>
-                            <a><Link to="/">About</Link></a>
+                            <a><Link to="/about">About</Link></a>
                             </li>
                         </ul>
                     </div>

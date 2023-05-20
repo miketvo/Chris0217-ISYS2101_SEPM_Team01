@@ -31,25 +31,26 @@ const handleEdit= async (req, res) => {
     const sex = req.body.sex;
     const height = req.body.height;
     const weight = req.body.weight;
+    const allergen = req.body.allergen;
+    const unpreferred_ingredients = req.body.unpIngredients
+
 
     var sql1 = "SELECT * FROM users WHERE name = '"+cachedUsername+"';";
+
     db.query(sql1, function(err, rows) {
+
         if(rows.length == 1) {
-            var newSetting = {
-                age: age,
-                sex: sex,
-                height: height,
-                weight: weight
-            }; 
-            var sql2 = "UPDATE users SET ? WHERE name = '"+cachedUsername+"'"
-            db.query(sql2, newSetting, function(err, rows) {
+
+            var sql2 = "UPDATE users SET age = "+age+", sex = '"+sex+"', height = "+height+", weight = "+weight+", allergen = '"+JSON.stringify(allergen)+"', unpreferred_ingredients = '"+JSON.stringify(unpreferred_ingredients)+"' WHERE name = '"+cachedUsername+"';";
+
+            db.query(sql2, function(err, rows) {
                 if(err) {
                     return console.log("errorcode:", err);
                 } else {
-                    console.log("input age:[", age, "], sex: [", sex, "], input height: [", height, "], input weight: [", weight, "]");
                     res.end();
                 }
             })
+            
         } else {
             console.log("errorcode:", err);
             return res.sendStatus(400);
