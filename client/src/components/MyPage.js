@@ -87,15 +87,15 @@ function MyPage() {
     const handleMode = async (e) => {
       e.preventDefault();
       if (editMode) {
-        setEditMode(false);
         setAge(userData[0].age);
         setSex(userData[0].sex);
         setHeight(userData[0].height);
         setWeight(userData[0].weight);
         setAllergen(JSON.parse(userData[0].allergen));
         setUnpIngredients(JSON.parse(userData[0].unpreferred_ingredients));
-        setSelectedAllergens((allergen.map(allergy => ({value:allergy, label:allergy}))));
-        setSelectedIngredients((unpIngredients.map(ingredient => ({value:ingredient, label:ingredient}))));
+        setSelectedAllergens(JSON.parse(userData[0].allergen).map(allergy => ({value:allergy, label:allergy})));
+        setSelectedIngredients(JSON.parse(userData[0].unpreferred_ingredients).map(ing => ({value:ing, label:ing})));
+        setEditMode(false);
       } else {
         setEditMode(true)
       }
