@@ -55,8 +55,8 @@ function MyPage() {
                 setWeight(userData[0].weight);
                 setAllergen(JSON.parse(userData[0].allergen));
                 setUnpIngredients(JSON.parse(userData[0].unpreferred_ingredients));
-                setSelectedAllergens((allergen.map(allergy => ({value:allergy, label:allergy}))));
-                setSelectedIngredients((unpIngredients.map(ing => ({value:ing, label:ing}))));
+                setSelectedAllergens((JSON.parse(userData[0].allergen).map(allergy => ({value:allergy, label:allergy}))));
+                setSelectedIngredients((JSON.parse(userData[0].unpreferred_ingredients).map(ing => ({value:ing, label:ing}))));
             }
 
         } catch (error) {
@@ -228,7 +228,7 @@ function MyPage() {
             <div class="condition">
               <h2>Condition</h2>
               <label for="allergen">Allergens</label>
-              {allergen==null||allergen.length==0
+              {allergen===null||allergen.length===0
                 ? 
                 <input class="loopInput" type="text" id="name" name="name" value="" readOnly/> 
                 :
@@ -250,7 +250,7 @@ function MyPage() {
                 false
               }
               <label for="unpreferred">Unpreferred Ingredients</label>
-              {unpIngredients==null||unpIngredients.length==0
+              {unpIngredients===null||unpIngredients.length===0
                 ? 
                 <input class="loopInput" type="text" id="name" name="name" value="" readOnly/> 
                 :
