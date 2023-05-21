@@ -2,14 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import './MyPage.css';
 import axios from '../api/axios';
-import NotLoggedIn from "./NotLoggedIn";
 
 const MYPAGE_URL = '/mypage';
 
 function MyPage() {
-    const user = sessionStorage.getItem("name");
-    const [loggedIn, setLoggedIn] = useState(user==null ? false : true);
-
     const [username, setUsername] = useState('');
     const [userData, setUserData] = useState(null);
     const [age, setAge] = useState('');
@@ -128,8 +124,6 @@ function MyPage() {
 
 
   return (
-    <>
-    {loggedIn ? (
       <section class="mypage_section">
         <form onSubmit={handleSubmit}>
           <div class="forms">
@@ -285,9 +279,6 @@ function MyPage() {
           </div>
         </form>
       </section>
-    ) : (
-      <NotLoggedIn />
-      )} </>
   );
 }
 
