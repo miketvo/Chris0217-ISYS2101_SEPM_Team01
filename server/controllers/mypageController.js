@@ -50,7 +50,6 @@ const handleEdit= async (req, res) => {
                     res.end();
                 }
             })
-            
         } else {
             console.log("errorcode:", err);
             return res.sendStatus(400);
