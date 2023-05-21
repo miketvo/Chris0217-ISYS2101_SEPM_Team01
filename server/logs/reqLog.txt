@@ -4239,3 +4239,9 @@
 20230521	06:30:12	3d58ddf3-2655-453b-ac3e-5a580292ab05	GET	http://localhost:3000	/history
 20230521	06:30:32	71a19b82-d99f-4d27-8d66-307ebd229f24	GET	http://localhost:3000	/api/allIngredients
 20230521	06:30:32	01c49398-5e62-455d-adde-57c718b4b4d4	GET	http://localhost:3000	/mypage
+20230521	07:42:22	f40065ab-0a00-4e4c-940b-109b5e651114	GET	http://localhost:3000	/history
+20230521	07:42:22	d1fe5091-d151-41d8-a5c2-1a4e47e4740f	GET	http://localhost:3000	/api/allIngredients
+20230521	07:42:22	8a7fc250-418e-4504-9ec9-7123c97a6c0a	GET	http://localhost:3000	/mypage
+20230521	07:42:22	edc8a834-d457-4550-942d-a885b5bf6a8e	GET	http://localhost:3000	/login
+20230521	07:42:22	9164c58e-8672-4607-9733-03c561725fb8	GET	http://localhost:3000	/history
+20230521	07:42:22	ea74fe8f-3836-4e77-b2f1-652b3669f699	GET	http://localhost:3000	/history
