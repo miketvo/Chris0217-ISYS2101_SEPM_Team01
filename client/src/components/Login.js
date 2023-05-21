@@ -28,6 +28,7 @@ function Login() {
         try {
             await axios.post(LOGIN_URL, JSON.stringify({ user, pwd }), {
                 headers: { "Content-Type": "application/json" },
+                withCredentials: true
             });
 
             setSuccess(true);
@@ -46,10 +47,6 @@ function Login() {
                 setErrMsg("Login Failed");
             }
             errRef.current.focus();
-        // } finally {
-        //     if(sessionStorage.getItem()) {
-
-        //     }
         }
     };
 

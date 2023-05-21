@@ -45,11 +45,22 @@ const handleLogin = async (req, res) => {
                         
                         console.log("세션 저장 완료");
                         console.log("세션:", req.session);
-                        res.redirect("/"); // 재연결
+                        
+                        // 쿠키 설정
+                        res.cookie('sessionID', req.sessionID, {
+                            httpOnly: true,
+                            sameSite: 'strict',
+                            // 추가적인 쿠키 설정
+                            maxAge: 3600000, // 쿠키의 유효 기간을 1시간으로 설정 (설정값은 적절히 조정하세요)
+                            secure: true // HTTPS를 통해서만 쿠키를 전송하도록 설정 (배포 환경에서만 사용)
+                        });
+
+                        // res.redirect("/"); // 재연결
+                        res.redirect(303, "/");
+                        // res.render("/", { user: req.session.username });
                     
                         const loginUserName = sessionUtil.getUsernameFromSession(req);
                         console.log('현재 로그인한 사용자:', loginUserName);
-                        
                     });
 
                 } else {

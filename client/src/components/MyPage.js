@@ -21,6 +21,23 @@ function MyPage() {
     const [selectedAllergens, setSelectedAllergens] = useState();
 
     const [allIngredients, setAllIngredients] = useState(null);
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+          try {
+            const response = await axios.get("http://localhost:3500/api/check-login-status");
+            const { isLoggedIn } = response.data;
+            setIsLoggedIn(isLoggedIn);
+            console.log('세션 유지 확인:', isLoggedIn);
+          } catch (error) {
+            console.error("Error checking login status:", error);
+          }
+        };
+    
+        checkLoginStatus();
+    }, []);
+
     useEffect(() => {
       axios.get("http://localhost:3500/api/allIngredients")
       .then((response)=>{
