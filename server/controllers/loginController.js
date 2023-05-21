@@ -1,5 +1,6 @@
 const db = require("../module/db"); // 데이터베이스
 const bcrypt = require("bcrypt"); // 암호화
+const sessionUtil = require('./sessionUtil');
 
 const handleLogin = async (req, res) => {
     const input_name = req.body.user;
@@ -8,7 +9,7 @@ const handleLogin = async (req, res) => {
     // 아래 코드는 백엔드로 input 데이터가 잘 전달되었는지 확인하기 위한 코드입니다~ 테스트해 보고 싶으시면 해제해서 사용해 보셔도 돼요 (세션 같은 건 비포 애프터가 잘 보입니다)
     console.log("input name: [", input_name, "]");
     console.log("input pw: [", input_pw, "]");
-    console.log("세션:", req.session); // 라인 26이랑 비포 애프터 확인 용도
+    console.log("세션:", req.session);  // 라인 26이랑 비포 애프터 확인 용도
 
     // 대부분의 콘솔 로그는 제가 테스트해 보며 확인한 용도라서 주석으로 처리하고 진행하셔도 무방합니다
     const sql1 =
@@ -32,13 +33,25 @@ const handleLogin = async (req, res) => {
                 } else if (validPassword) {
                     // 비밀번호가 일치하는 경우
                     console.log("비밀번호 일치:", validPassword); // (= true)
+
                     req.session.is_logined = true; // 로그인 상태도 true로 변경
                     req.session.username = input_name; // 세션 데이터베이스 내 유저 이름이라는 value의 해당 유저의 name을 넣음
-                    console.log("세션:", req.session); // 라인 11이랑 비포 애프터 확인 용도
-                    req.session.save(function () {
-                        // 해당 세션 저장
-                        res.redirect(`/`); // 재연결
+
+                    req.session.save(function (err) {
+                        if (err) {
+                            console.log("세션 저장 오류:", err);
+                            return;
+                        }
+                        
+                        console.log("세션 저장 완료");
+                        console.log("세션:", req.session);
+                        res.redirect("/"); // 재연결
+                    
+                        const loginUserName = sessionUtil.getUsernameFromSession(req);
+                        console.log('현재 로그인한 사용자:', loginUserName);
+                        
                     });
+
                 } else {
                     // 비밀번호가 일치하지 않는 경우
                     console.log("비밀번호 일치:", validPassword); // (= false)
@@ -55,5 +68,6 @@ const handleLogin = async (req, res) => {
         }
     });
 };
+
 
 module.exports = { handleLogin };

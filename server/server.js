@@ -13,13 +13,14 @@ var mySqlStore = require('express-mysql-session')(session);  // store로 쓸 데
 var option = require("./module/option");  // 데베 정보를 option.js로 제공 (db.js를 안 쓰는 이유는 커넥션이 두 번 생겨서 에러가 생기기 때문)
 var sessionStore = new mySqlStore(option);  // 새로운 store 선언
 
-app.use(session({  // 세션 정보
-	key: 'session_cookie_name',  // 암호화 키
-    secret: 'session_cookie_secret',  // 암호화 방식
-	resave: false,  // 
-	saveUninitialized: true,  //
-    store: sessionStore  // 앞서 선언한 스토어
-}));
+app.use(
+    session({  // 세션 정보
+        secret: 'session_cookie_secret',  // 암호화 방식
+        resave: false,
+        saveUninitialized: false,
+        store: sessionStore  // 앞서 선언한 스토어
+    })
+);
 
 // custom middleware logger
 app.use(logger);
@@ -42,8 +43,20 @@ app.use('/', express.static(path.join(__dirname, '/public')));
 app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
 app.use('/login', require('./routes/login'));
-// app.use('/logout', require('./routes/logout'));
+app.use('/mypage', require('./routes/mypage'));
 app.use("/home",require("./routes/popup"));
+app.use("/api", require("./routes/api"));
+app.use("/history", require("./routes/history"));
+
+
+// 로그인 상태 확인 엔드포인트
+app.get("/api/check-login-status", (req, res) => {
+    // 세션에서 로그인 상태 확인
+    const isLoggedIn = req.session.isLoggedIn || false;
+  
+    res.json({ isLoggedIn });
+});
+app.use('/api/logout', require('./routes/logout'));
 
 app.all("*", (req, res) => {
   res.status(404);

@@ -4,7 +4,6 @@ import axios from "../api/axios";
 
 const LOGIN_URL = "/login";
 
-
 function Login() {
     const userRef = useRef();
     const errRef = useRef();
@@ -13,8 +12,8 @@ function Login() {
     const [pwd, setPwd] = useState("");
 
     const [errMsg, setErrMsg] = useState("");
-
     const [success, setSuccess] = useState(false);
+
 
     useEffect(() => {
         userRef.current.focus();
@@ -27,18 +26,15 @@ function Login() {
         e.preventDefault();
 
         try {
-            await axios.post(
-                LOGIN_URL,
-                JSON.stringify({ user, pwd }),
-                {
-                    headers: { "Content-Type": "application/json" }
-                }
-            ); 
+            await axios.post(LOGIN_URL, JSON.stringify({ user, pwd }), {
+                headers: { "Content-Type": "application/json" },
+            });
 
             setSuccess(true);
             setUser("");
             setPwd("");
-            sessionStorage.setItem('name', user);
+            sessionStorage.setItem("name", user);
+
         } catch (err) {
             if (!err?.response) {
                 setErrMsg("No Server Response");
@@ -50,18 +46,31 @@ function Login() {
                 setErrMsg("Login Failed");
             }
             errRef.current.focus();
+        // } finally {
+        //     if(sessionStorage.getItem()) {
+
+        //     }
         }
     };
 
     return (
         <>
-            {success ? (
+        {success ? ( 
                 <section>
-                    <h1>You are logged in!</h1>
-                    <br />
-                    <p>
-                        <a><Link to="/home">Go to Home</Link></a>
-                    </p>
+                <h1>You are logged in!</h1>
+                <br />
+                <p>
+                    <a>
+                        <Link to="/home">Go to Home</Link>
+                    </a>
+                </p>
+                <br /><br />
+                <p>
+                    If you are new user,&nbsp;
+                    <a>
+                         <Link to="/mypage">Go to My Page</Link>
+                    </a>
+                </p>
                 </section>
             ) : (
                 <section>
@@ -107,6 +116,7 @@ function Login() {
                             value={pwd}
                             required
                         />
+                        <br></br>
                         <button>Sign In</button>
                     </form>
                     <p style={{ textAlign: "center" }}>
@@ -128,6 +138,6 @@ function Login() {
             )}
         </>
     );
-};
+}
 
 export default Login;

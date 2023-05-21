@@ -77,6 +77,7 @@ input[type="checkbox"] {
 
   .progress-container{
     display: flex;
+    width: 100%;
     justify-content: space-between;
   }
 
@@ -95,4 +96,10 @@ input[type="checkbox"] {
     margin-top: 30px;
     width: 100%;
     max-height: 200px;
+  }
+
+  .disabled {
+    opacity: 0.6; /* Example: Reduce opacity for disabled button */
+    cursor: inherit; /* Example: Change cursor to not-allowed for disabled button */
+    /* Add more custom styles as desired */
   }
