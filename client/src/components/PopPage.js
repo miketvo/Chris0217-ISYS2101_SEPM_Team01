@@ -158,8 +158,8 @@ function PopPage() {
     event.preventDefault();
     try {
       //This code needs to change to link based on link
-      window.location.href = "http://localhost:3000/home";
-      //window.location.href = "http://13.215.209.159:3000/home";
+    //   window.location.href = "http://localhost:3000/home";
+        window.location.href = "http://54.169.135.154:3000/home";
       const responseInput = await axios.post(
         "/home",
         { mealUserArray, mealPlanInfo },
