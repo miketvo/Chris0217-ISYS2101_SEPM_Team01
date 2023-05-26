@@ -1,32 +1,85 @@
 import React, { useState, useContext, useEffect } from "react";
 import "./PopPage.css";
 import "./Dashboard.css";
-import axios from "axios";
+import axios from "../api/axios";
 import Selection from "./Selection";
 import { flushCache } from "./Memoization";
-const POPUP_URL = "/home";
 function PopPage() {
-  //우선 마지막 3-4개가 Meal Type, 나머지는 Meal Style
+  //id 1-4: Meal Style, id 5-8: Meal Type
+  const [isReRecommendClicked, setIsReRecommendClicked] = useState(false);
   const [checkedState, setCheckedState] = useState([
     { id: 1, value: "Vegan", isChecked: false },
     { id: 2, value: "Vegetarian", isChecked: false },
-    { id: 3, value: "Gluten-Free", isChecked: false },
-    { id: 4, value: "Egg-Free", isChecked: false },
+    { id: 3, value: "Mediterranean", isChecked: false },
+    { id: 4, value: "Keto-Friendly", isChecked: false },
     { id: 5, value: "breakfast", isChecked: false },
     { id: 6, value: "lunch", isChecked: false },
     { id: 7, value: "dinner", isChecked: false },
     { id: 8, value: "snack", isChecked: false },
   ]);
 
-  //필요한 constant 설정 -> set array를 통해서 받아옵니다
+  //constant needed for useEffect
   const [selectedValues, setSelectedValues] = useState([]);
   const [selectedTypeValues, setSelectedTypeValues] = useState([]);
   const [selectedStyleValues, setSelectedStyleValues] = useState([]);
   const [showDiv, setShowDiv] = useState(false);
+  const [userinfos, setUserinfos] = useState([]);
 
-  //submit 이전에는 꼭 meal type 중 1개는 선탁해야 submit 가능
-  //submit 이후에 콘솔로 선택한 value 리턴하고 메뉴 출력함
+  //get user information for filtering
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const response = await axios.get("http://localhost:3500/userinfo");
+      console.log("User info loading!");
+      const userData = response.data;
+      if (userData) {
+        setUserinfos(userData);
+      } else {
+        getUserInfo();
+      }
+    };
+    getUserInfo();
+  }, []);
+
+  //save data of user on constant
+  const userHeight = userinfos.map((userinfos) => userinfos.height);
+  const userWeight = userinfos.map((userinfos) => userinfos.weight);
+  const userSex = userinfos.map((userinfos) => userinfos.sex);
+  const userAge = userinfos.map((userinfos) => userinfos.age);
+  const userUnPreffer = userinfos.map(
+    (userinfos) => userinfos.unpreferred_ingredients
+  );
+  const userAllergen = userinfos.map((userinfos) => userinfos.allergen);
+
+  //calculation of algorithm for AMR
+  const userBMR = 10 * userWeight + 6.25 * userHeight - 5 * userAge;
+  let userAMR = 100;
+  if (userSex.includes("m")) {
+    userAMR = userBMR * 1.55;
+  } else {
+    userAMR = userBMR * 1.375;
+  }
+
+  const totalCal = Math.round(userAMR);
+  console.log(totalCal);
+
+  //function checking checkboxes are checked
+  function handleCheckboxChange(event) {
+    const { id } = event.target;
+    setCheckedState((prevState) => {
+      const newState = prevState.map((item) => {
+        if (item.id === Number(id)) {
+          return { ...item, isChecked: !item.isChecked };
+        }
+        return item;
+      });
+      return newState;
+    });
+  }
+  //function of submit after checkbox input
+  const [countRe, setCountRe] = useState(0);
   const handleSubmit = async (event) => {
+    flushCache();
+    setCountRe(countRe + 1);
     event.preventDefault();
     if (
       checkedState.filter(
@@ -54,30 +107,20 @@ function PopPage() {
     setSelectedTypeValues(selectedTypeValues);
     setSelectedValues(selectedValues);
     setShowDiv(true);
-  };
-  const [countRe, setCountRe] = useState(0);
-  //체크박스 체크되었는지 확인하는 function
-  function handleCheckboxChange(event) {
-    const { id } = event.target;
-    setCheckedState((prevState) => {
-      const newState = prevState.map((item) => {
-        if (item.id === Number(id)) {
-          return { ...item, isChecked: !item.isChecked };
-        }
-        return item;
-      });
-      return newState;
-    });
-  }
+    console.log("Submit button clicked!");
 
+  };
+
+  //function for re-recommend
   const [isButtonDisabled, setButtonDisabled] = useState(false);
   function handleReRecommend(event) {
     if (isButtonDisabled) {
-      return; // Exit early if the button is disabled
+      return; // cannot click if button is disabled
     }
     flushCache();
     setCountRe(countRe + 1);
-    const { id } = event.target;
+    const { id } = event.target.id;
+    //re-render meal generator for new result
     setCheckedState((prevState) => {
       const newState = prevState.map((item) => {
         if (item.id === Number(id)) {
@@ -88,16 +131,24 @@ function PopPage() {
       return newState;
     });
     setButtonDisabled(true); // Disable the button
+    if (!isReRecommendClicked) {
+      console.log("Re-recommend button clicked!");
+
+      // Update the state to indicate that the button has been clicked
+      setIsReRecommendClicked(true);
+    }
   }
 
+  //timeout for re-recommend button
   useEffect(() => {
     const timer = setTimeout(() => {
-      setButtonDisabled(false); // Enable the button after 3 seconds
-    }, 3000);
+      setButtonDisabled(false); // Enable the button after 7 seconds due to limitation of API
+    }, 7000);
 
     return () => clearTimeout(timer); // Clear the timer on component unmount or re-render
   }, [isButtonDisabled]);
 
+  //function for confirm button
   const handleConfirmClick = async (event) => {
     flushCache();
     const mealUserArray = window.mealArray;
@@ -105,13 +156,15 @@ function PopPage() {
     console.log(mealUserArray);
     event.preventDefault();
     try {
+      //This code needs to change to link based on link
       window.location.href = "http://localhost:3000/home";
+      //window.location.href = "http://13.215.209.159:3000/home";
       const responseInput = await axios.post(
-        "http://localhost:3500/home",
+        "/home",
         { mealUserArray, mealPlanInfo },
         {
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
-          withCredentials: true,
         }
       );
       console.log("Sent somehow");
@@ -156,6 +209,7 @@ function PopPage() {
                             id={item.id}
                             value={item.value}
                             checked={item.isChecked}
+                            selectedTypeValues
                             onChange={handleCheckboxChange}
                           />
                           {item.value}
@@ -177,6 +231,9 @@ function PopPage() {
                 <Selection
                   type={selectedTypeValues}
                   style={selectedStyleValues}
+                  cal={totalCal}
+                  allergen={userAllergen}
+                  unPreffer={userUnPreffer}
                 ></Selection>
                 <div className="popup-buttons">
                   <button

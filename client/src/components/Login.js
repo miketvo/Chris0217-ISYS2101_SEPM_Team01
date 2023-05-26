@@ -12,9 +12,20 @@ function Login() {
     const [pwd, setPwd] = useState("");
 
     const [errMsg, setErrMsg] = useState("");
-    const [success, setSuccess] = useState(false);
 
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const checkLoginStatus = async () => {
+        try {
+            const response = await axios.get("http://localhost:3500/api/check-login-status");
+            const { isLoggedIn } = response.data;
+            setIsLoggedIn(isLoggedIn);
+        } catch (error) {
+            console.error("Error checking login status:", error);
+        }
+    };
+    useEffect(() => {
+        checkLoginStatus();
+    }, []);
     useEffect(() => {
         userRef.current.focus();
     }, []);
@@ -28,13 +39,13 @@ function Login() {
         try {
             await axios.post(LOGIN_URL, JSON.stringify({ user, pwd }), {
                 headers: { "Content-Type": "application/json" },
+                withCredentials: true
             });
 
-            setSuccess(true);
             setUser("");
             setPwd("");
             sessionStorage.setItem("name", user);
-
+            window.location.reload(false);
         } catch (err) {
             if (!err?.response) {
                 setErrMsg("No Server Response");
@@ -46,30 +57,28 @@ function Login() {
                 setErrMsg("Login Failed");
             }
             errRef.current.focus();
-        // } finally {
-        //     if(sessionStorage.getItem()) {
-
-        //     }
         }
     };
 
     return (
         <>
-        {success ? ( 
-                <section>
+        {isLoggedIn ? ( 
+                <section style={{ textAlign: "center" }}>
+                    <br/>
                 <h1>You are logged in!</h1>
                 <br />
                 <p>
-                    <a>
-                        <Link to="/home">Go to Home</Link>
-                    </a>
+                    <button>
+                        <Link style={{ textDecoration: "none", color: "gray" }} to="/home">Go to Home</Link>
+                    </button> 
                 </p>
-                <br /><br />
+                <br/>
                 <p>
-                    If you are new user,&nbsp;
-                    <a>
-                         <Link to="/mypage">Go to My Page</Link>
-                    </a>
+                    If you are new user,
+                    <br></br>
+                    <button>
+                        <Link style={{ textDecoration: "none", color: "gray" }} to="/mypage">Go to My Page</Link>
+                    </button> 
                 </p>
                 </section>
             ) : (

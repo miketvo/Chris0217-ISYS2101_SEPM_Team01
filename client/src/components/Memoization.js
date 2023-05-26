@@ -1,12 +1,13 @@
 import { Creation } from "./Creation";
 
 let cachedResult = null;
-
+//function to run getMealResult just once
 export const getMealResult = (
   userMealType,
   userMealStyle,
   products,
   userUnPreffer,
+  userAllergen,
   totalCal
 ) => {
   if (!cachedResult) {
@@ -16,6 +17,7 @@ export const getMealResult = (
       userMealStyle,
       products,
       userUnPreffer,
+      userAllergen,
       totalCal
     );
   }

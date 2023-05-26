@@ -1,7 +1,6 @@
 import React from "react";
 // const Recipe = ({ label, calories, image, ingredients }) => {
 const Recipe = (props) => {
-  
   return (
     <div>
       <table>

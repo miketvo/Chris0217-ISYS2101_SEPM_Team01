@@ -6,6 +6,8 @@ const corsOptions = require('./config/corsOptions');
 const { logger } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');
 const PORT = process.env.PORT || 3500;
+const cookieParser = require('cookie-parser');
+const sessionUtil = require('./controllers/sessionUtil');
 
 // 로그인을 유지하기 위해서 express에서 제공하는 mysql session을 이용 (npm install express-session express-mysql-session)
 var session = require('express-session');
@@ -18,9 +20,17 @@ app.use(
         secret: 'session_cookie_secret',  // 암호화 방식
         resave: false,
         saveUninitialized: false,
-        store: sessionStore  // 앞서 선언한 스토어
+        store: sessionStore,  // 앞서 선언한 스토어
+        cookie: {
+            httpOnly : true,
+            sameSite : 'none',
+            maxAge : 5300000,
+            secure : true,
+        },
     })
 );
+
+app.use(cookieParser());
 
 // custom middleware logger
 app.use(logger);
@@ -46,17 +56,26 @@ app.use('/login', require('./routes/login'));
 app.use('/mypage', require('./routes/mypage'));
 app.use("/home",require("./routes/popup"));
 app.use("/api", require("./routes/api"));
-app.use("/history", require("./routes/history"));
+app.use("/userhistory", require("./routes/userhistory"));
+app.use("/userinfo", require("./routes/userinfo"));
+app.use('/api/logout', require('./routes/logout'));
 
 
 // 로그인 상태 확인 엔드포인트
 app.get("/api/check-login-status", (req, res) => {
     // 세션에서 로그인 상태 확인
-    const isLoggedIn = req.session.isLoggedIn || false;
-  
-    res.json({ isLoggedIn });
+    const cachedUsername = sessionUtil.getUsernameFromSession(req);
+    if (cachedUsername) {
+        const isLoggedIn = true;
+        console.log('로그인 확인:', isLoggedIn);
+        res.json({ isLoggedIn });
+    } else {
+        const isLoggedIn = false;
+        console.log('로그인 확인:', isLoggedIn);
+        res.json({ isLoggedIn });
+    }
 });
-app.use('/api/logout', require('./routes/logout'));
+
 
 app.all("*", (req, res) => {
   res.status(404);

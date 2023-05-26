@@ -2,6 +2,7 @@ import { Line } from "rc-progress";
 import "./Progress.css";
 
 function Progress(props) {
+  //function to show progress bar on dashboard
   const percentage = (props.value / props.total) * 100;
   return (
     <div className="progress-bar">

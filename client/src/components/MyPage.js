@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
-import './MyPage.css';
 import axios from '../api/axios';
+import { Link } from "react-router-dom";
+import './MyPage.css';
+import Select from 'react-select';
 
 const MYPAGE_URL = '/mypage';
 
@@ -21,6 +22,21 @@ function MyPage() {
     const [selectedAllergens, setSelectedAllergens] = useState();
 
     const [allIngredients, setAllIngredients] = useState(null);
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const checkLoginStatus = async () => {
+        try {
+            const response = await axios.get("http://localhost:3500/api/check-login-status");
+            const { isLoggedIn } = response.data;
+            setIsLoggedIn(isLoggedIn);
+        } catch (error) {
+            console.error("Error checking login status:", error);
+        }
+    };
+    useEffect(() => {
+        checkLoginStatus();
+    }, []);
+
     useEffect(() => {
       axios.get("http://localhost:3500/api/allIngredients")
       .then((response)=>{
@@ -102,28 +118,49 @@ function MyPage() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+      e.preventDefault();
 
-        try {
-            await axios.post(
-                MYPAGE_URL,
-                JSON.stringify({ age, sex, height, weight, allergen, unpIngredients }),
-                {
-                headers: { 'Content-Type': 'application/json' },
-                }
-            );
-            alert("Your information is updated!");
-            setSelectedAllergens();
-            setSelectedIngredients();
-            setEditMode(false)
-        } catch (err) {
-            alert("Update failed to proceed.")
-            handleMode();
-        }
-    };
+      try {
+          await axios.post(
+              MYPAGE_URL,
+              JSON.stringify({ age, sex, height, weight, allergen, unpIngredients }),
+              {
+              headers: { 'Content-Type': 'application/json' },
+              }
+          );
+          alert("Your information is updated!");
+          setSelectedAllergens();
+          setSelectedIngredients();
+          setEditMode(false)
+      } catch (err) {
+          alert("Update failed to proceed.")
+          handleMode();
+      }
+  };
 
 
   return (
+    <>
+        {!isLoggedIn ? ( 
+                <section style={{ textAlign: "center" }} >
+                <br/>
+                <h1>You are Not logged in!</h1>
+                <br />
+                <p>
+                  If you already have an account, <br></br>
+                    <button>
+                        <Link style={{ textDecoration: "none", color: "gray" }} to="/">Login</Link>
+                    </button> 
+                </p>
+                <br/>
+                <p>
+                    If you are new to Mearie,<br></br>
+                    <button>
+                         <Link style={{ textDecoration: "none", color: "gray" }} to="/register">Register</Link>
+                    </button>
+                </p>
+                </section>
+            ) : (
       <section class="mypage_section">
         <form onSubmit={handleSubmit}>
           <div class="forms">
@@ -279,7 +316,9 @@ function MyPage() {
           </div>
         </form>
       </section>
-  );
+    )}
+  </>
+);
 }
 
 export default MyPage;
