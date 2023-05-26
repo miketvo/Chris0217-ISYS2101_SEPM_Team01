@@ -1,50 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import "./NavbarStyle.css";
 
 
 function Navbar() {
     const [clicked, setClicked] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
   
     const handleClick = () => {
       setClicked(!clicked);
     };
 
-    const updateButton = () => {
-        if(isLoggedIn) {
-          setClicked(false);
-        }
-    };
-
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const checkLoginStatus = async () => {
         try {
             const response = await axios.get("http://localhost:3500/api/check-login-status");
             const { isLoggedIn } = response.data;
             setIsLoggedIn(isLoggedIn);
-            updateButton();
         } catch (error) {
             console.error("Error checking login status:", error);
         }
     };
-    
     useEffect(() => {
         checkLoginStatus();
     }, []);
+
   
-    const handleLogout = async () => {
-        try {
-            const response = await axios.post('http://localhost:3500/api/logout');
-            if (response.request.responseURL) {
-                window.location.href = "http://localhost:3000/login";
-            }
-        } catch (error) {
-            console.error('Error logging out:', error);
-        } finally {
-            setIsLoggedIn(false); // 로그아웃 후에 isLoggedIn을 false로 설정
-        }
-    };
+    // const handleLogout = async () => {
+    //     try {
+    //         const response = await axios.post('http://localhost:3500/api/logout');
+    //         if (response.request.responseURL) {
+    //             window.location.href = "http://localhost:3000/login";
+    //         }
+    //     } catch (error) {
+    //         console.error('Error logging out:', error);
+    //     } finally {
+    //         setIsLoggedIn(false); // 로그아웃 후에 isLoggedIn을 false로 설정
+    //     }
+    // };
 
     return (
         <>
@@ -62,12 +57,17 @@ function Navbar() {
               <ul id="navbar" className={clicked ? "#navbar active" : "#navbar"}>
                 <li>
                   <a>
-                    <Link to="/">Archive</Link>
+                    <Link to="#">Archive</Link>
                   </a>
                 </li>
                 <li>
                   <a>
-                    <Link to="/">Community</Link>
+                    <Link to="#">Community</Link>
+                  </a>
+                </li>
+                <li>
+                  <a>
+                    <Link to="/search">Search</Link>
                   </a>
                 </li>
                 <li>
@@ -77,14 +77,16 @@ function Navbar() {
                 </li>
                 <li>
                   <a>
-                    <Link to="/">About</Link>
+                    <Link to="#">About</Link>
                   </a>
                 </li>
                 <li>
                   {isLoggedIn ? (
-                    <button onClick={handleLogout}>Logout</button>
+                    <FontAwesomeIcon
+                    icon={faCheck}
+                    />
                   ) : (
-                    <Link to="/login">Login</Link>
+                    <Link to="/">Login</Link>
                   )}
                 </li>
               </ul>

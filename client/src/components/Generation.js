@@ -7,13 +7,9 @@ import Menu from "./Menu";
 import axios from "../api/axios";
 import { flushCache } from "./Memoization";
 
-const fetchData = async () => {
-  const response = await axios.get("http://localhost:3500/history");
-  return response.data;
-};
 function Generation() {
   const [isOpen, setIsOpen] = useState(false);
-  const [mealLog, setmealLog] = useState([]);
+  const [mealLog, setMealLog] = useState([]);
   const [loadingDash, setLoadingDash] = useState(true);
 
   useEffect(() => {
@@ -21,18 +17,20 @@ function Generation() {
 
     const getMealLog = async () => {
       try {
-        const data = await fetchData();
+        const response = await axios.get("http://localhost:3500/userhistory");
+        console.log("This is from Generation.js");
         console.log("It is fetching data");
         if (isMounted) {
-          setmealLog(data);
+          setMealLog(response.data);
           setLoadingDash(false);
         }
       } catch (error) {
         console.error(error);
       }
     };
-
-    getMealLog();
+    if (window.location.pathname === "/home") {
+      getMealLog();
+    }
 
     return () => {
       isMounted = false;
@@ -91,14 +89,6 @@ function Generation() {
     flushCache();
     document.body.classList.remove("popup-open");
   }
-
-  const [countSet, setCountSet] = useState(0);
-  function setAgain() {
-    window.subSituation = 150;
-    console.log(window.subSituation);
-    setCountSet(countSet + 1);
-  }
-  console.log(window.subSituation);
 
   return (
     <>

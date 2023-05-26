@@ -5,12 +5,8 @@ import "./Dashboard.css";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
-const fetchData = async () => {
-  const response = await axios.get("http://localhost:3500/history");
-  return response.data;
-};
 const Dashboard = () => {
-  const [mealLog, setmealLog] = useState([]);
+  const [mealLog, setMealLog] = useState([]);
   const [loadingDash, setLoadingDash] = useState(true);
 
   useEffect(() => {
@@ -18,18 +14,19 @@ const Dashboard = () => {
 
     const getMealLog = async () => {
       try {
-        const data = await fetchData();
+        const response = await axios.get("http://localhost:3500/userhistory");
         console.log("It is fetching data");
         if (isMounted) {
-          setmealLog(data);
+          setMealLog(response.data);
           setLoadingDash(false);
         }
       } catch (error) {
         console.error(error);
       }
     };
-
-    getMealLog();
+    if (window.location.pathname === "/home") {
+      getMealLog();
+    }
 
     return () => {
       isMounted = false;

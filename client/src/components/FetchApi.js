@@ -39,11 +39,13 @@ const FetchApi = () => {
   };
 
   return (
+    <section>
     <div className="App">
       <form onSubmit={uppdateQuery}>
         <input type="text" value={search} onChange={updateSearch} />
         <button type="button">Search</button>
       </form>
+      <div className="fetchedTable">
       {recipe.map((item) => (
         <Recipe
           label={item.recipe.label}
@@ -52,7 +54,9 @@ const FetchApi = () => {
           ingredients={item.recipe.ingredients}
         />
       ))}
+      </div>
     </div>
+    </section>
   );
 };
 export default FetchApi;

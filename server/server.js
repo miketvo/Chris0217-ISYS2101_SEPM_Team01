@@ -56,7 +56,8 @@ app.use('/login', require('./routes/login'));
 app.use('/mypage', require('./routes/mypage'));
 app.use("/home",require("./routes/popup"));
 app.use("/api", require("./routes/api"));
-app.use("/history", require("./routes/history"));
+app.use("/userhistory", require("./routes/userhistory"));
+app.use("/userinfo", require("./routes/userinfo"));
 app.use('/api/logout', require('./routes/logout'));
 
 
