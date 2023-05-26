@@ -17,7 +17,8 @@ function Generation() {
 
     const getMealLog = async () => {
       try {
-        const response = await axios.get("http://localhost:3500/userhistory");
+        // const response = await axios.get("http://localhost:3500/userhistory");
+        const response = await axios.get("http://54.169.135.154:3500/userhistory");
         console.log("This is from Generation.js");
         console.log("It is fetching data");
         if (isMounted) {

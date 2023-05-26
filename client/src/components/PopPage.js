@@ -28,7 +28,8 @@ function PopPage() {
   //get user information for filtering
   useEffect(() => {
     const getUserInfo = async () => {
-      const response = await axios.get("http://localhost:3500/userinfo");
+    //   const response = await axios.get("http://localhost:3500/userinfo");
+    const response = await axios.get("http://54.169.135.154:3500/userinfo");
       console.log("User info loading!");
       const userData = response.data;
       if (userData) {

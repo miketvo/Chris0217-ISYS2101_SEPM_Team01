@@ -29,7 +29,8 @@ function Selection(props) {
       // Fetch data only if the component is mounted, only running once.
       if (mounted) {
         try {
-          const response = await axios.get("http://localhost:3500/api");
+        //   const response = await axios.get("http://localhost:3500/api");
+        const response = await axios.get("http://54.169.135.154:3500/api");
           setProducts(response.data);
           setLoading(false);
           console.log("Loading set to false");

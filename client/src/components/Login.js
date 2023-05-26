@@ -16,7 +16,8 @@ function Login() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const checkLoginStatus = async () => {
         try {
-            const response = await axios.get("http://localhost:3500/api/check-login-status");
+            // const response = await axios.get("http://localhost:3500/api/check-login-status");
+            const response = await axios.get("http://54.169.135.154:3500/api/check-login-status");
             const { isLoggedIn } = response.data;
             setIsLoggedIn(isLoggedIn);
         } catch (error) {
