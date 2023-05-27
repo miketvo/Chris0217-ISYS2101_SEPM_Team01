@@ -42,7 +42,7 @@ const FetchApi = () => {
     <div className="App">
       <form onSubmit={uppdateQuery}>
         <input type="text" value={search} onChange={updateSearch} />
-        <button type="button" onSubmit={uppdateQuery}>Search</button>
+        <button type="button" onClick={uppdateQuery}>Search</button>
       </form>
       {recipe.map((item) => (
         <Recipe
