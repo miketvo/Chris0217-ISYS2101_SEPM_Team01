@@ -79,7 +79,7 @@ function Register() {
                 <section>
                     <h1>Success!</h1>
                     <p>
-                        <Link to="/login">Sign In</Link>
+                        <Link to="/">Sign In</Link>
                     </p>
                 </section>
             ) : (
@@ -249,7 +249,7 @@ function Register() {
                         <br />
                         <span className="line">
                             <Link
-                                to="/login"
+                                to="/"
                                 style={{
                                     textDecoration: "none",
                                     fontWeight: 650,
